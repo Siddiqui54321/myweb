@@ -30,13 +30,16 @@
 
     #cart-buttons {
         display: flex;
-        justify-content: space-between;
+        justify-content: left; /*space-between;*/
+		gap: 15px;
         margin-top: 10px;
     }
 
     .card-body-top {
         text-align: center;
     }
+	
+}
 </style>
 <script>
 let cart = [];
@@ -107,8 +110,8 @@ window.onload = function(){
         <ul id="cart-items" class="list-group mb-2"></ul>
         <h5>Total: $<span id="cart-total">0.00</span></h5>
         <div id="cart-buttons">
-            <button class="btn btn-danger btn-sm" onclick="clearCart()">Clear Cart</button>
-            <button class="btn btn-success btn-sm" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
+            <button class="btn btn-danger btn-sm" style="font-size: 20px;" onclick="clearCart()">Clear Cart</button>
+            <button class="btn btn-success btn-sm" style="font-size: 20px;" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
         </div>
     </div>
 
