@@ -20,29 +20,12 @@
         width: 100%;
     }
 
-    #cart-sidebar {
-        position: fixed;
-        top: 80px;
-        right: 0;
-        width: 300px;
-        max-height: 80%;
-        overflow-y: auto;
+    #cart-details {
         background: #f8f9fa;
         padding: 15px;
-        border-left: 1px solid #ddd;
-        border-radius: 8px 0 0 8px;
-        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-        z-index: 1000;
-        transition: transform 0.3s ease;
-    }
-    #cart-sidebar.collapsed {
-        transform: translateX(100%);
-    }
-
-    #cart-toggle {
-        /* No fixed position, part of normal flow */
-        cursor: pointer;
-        z-index: 1001;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
     }
 
     #cart-buttons {
@@ -109,10 +92,6 @@ function showSection(sectionId){
     document.getElementById(sectionId).style.display='block';
 }
 
-function toggleCart(){
-    document.getElementById("cart-sidebar").classList.toggle("collapsed");
-}
-
 window.onload = function(){
     showSection('purses-section');
 };
@@ -120,20 +99,17 @@ window.onload = function(){
 </head>
 <body>
 
-<div id="cart-sidebar" class="collapsed">
-    <h4>🛒 Your Cart</h4>
-    <ul id="cart-items" class="list-group mb-2"></ul>
-    <h5>Total: $<span id="cart-total">0.00</span></h5>
-    <div id="cart-buttons">
-        <button class="btn btn-danger btn-sm" onclick="clearCart()">Clear Cart</button>
-        <button class="btn btn-success btn-sm" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
-    </div>
-</div>
-
 <div class="container mt-3">
-    <!-- Cart Button Above Heading -->
-    <div class="text-center mb-3">
-        <button id="cart-toggle" class="btn btn-warning" onclick="toggleCart()">🛒 Cart</button>
+
+    <!-- Cart Details at Top -->
+    <div id="cart-details">
+        <h4>🛒 Your Cart</h4>
+        <ul id="cart-items" class="list-group mb-2"></ul>
+        <h5>Total: $<span id="cart-total">0.00</span></h5>
+        <div id="cart-buttons">
+            <button class="btn btn-danger btn-sm" onclick="clearCart()">Clear Cart</button>
+            <button class="btn btn-success btn-sm" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
+        </div>
     </div>
 
     <h1 class="text-center mb-4">Shop on Line</h1>
