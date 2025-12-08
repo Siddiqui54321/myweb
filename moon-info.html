@@ -1,5 +1,144 @@
-<!doctype html>
+!DOCTYPE html>
 <html lang="en">
-<head><meta charset="utf-8"><title>Moon Info by MNS</title></head>
-<body><h1>Moon Info</h1><p>Use the full file from canvas.</p></body>
+<head>
+    <meta charset="UTF-8">
+    <title>Shop on Line</title>
+    <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .card-img-top {
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+        }
+    </style>
+    <script>
+        function orderViaWhatsApp(productName, qtyInputId, price) {
+            var quantity = document.getElementById(qtyInputId).value;
+
+            if (!quantity || isNaN(quantity) || quantity <= 0) {
+                alert("Please enter a valid quantity.");
+                return;
+            }
+
+            var totalAmount = (quantity * price).toFixed(2);
+
+            var phone = "923028345376";
+            var message = encodeURIComponent(
+                "I'm interested in: " + productName +
+                "\nQuantity: " + quantity +
+                "\nPrice per item: $" + price.toFixed(2) +
+                "\nTotal amount: $" + totalAmount +
+                "\n\nKindly confirm your order by payment on JazzCash or EasyPaisa account. Delivery will be done within two days."
+            );
+
+            var url = "https://wa.me/" + phone + "?text=" + message;
+            window.open(url, '_blank');
+        }
+
+        function showSection(sectionId) {
+            document.getElementById('purses-section').style.display = 'none';
+            document.getElementById('chocolates-section').style.display = 'none';
+            document.getElementById('kabab-section').style.display = 'none';
+
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        window.onload = function () {
+            const sharedMessage = `
+                <p class="mt-3 text-muted small">
+                    Kindly confirm your order by payment on <strong>JazzCash</strong> or <strong>EasyPaisa</strong> account.<br />
+                    Delivery will be done within two days.
+                </p>
+            `;
+
+            document.querySelectorAll('.order-instructions').forEach(div => {
+                div.innerHTML = sharedMessage;
+            });
+
+            // Show default section
+            showSection('purses-section');
+        };
+    </script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Shop on Line</h1>
+
+        <!-- 🔘 Category Buttons -->
+        <div class="text-center mb-4">
+            <button type="button" class="btn btn-primary btn-lg mx-2" onclick="showSection('chocolates-section')">Sweets Chocolates</button>
+            <button type="button" class="btn btn-danger btn-lg mx-2" onclick="showSection('kabab-section')">Delicious Kabab</button>
+            <button type="button" class="btn btn-success btn-lg mx-2" onclick="showSection('purses-section')">Ladies Purses</button>
+        </div>
+
+        <!-- ✅ Purses Section -->
+        <div id="purses-section" style="display: none;">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="images/purse1.jpg" class="card-img-top img-fluid" alt="Purse 1" />
+                        <div class="card-body">
+                            <h5 class="card-title">Elegant Leather Purse</h5>
+                            <p class="card-text">$49.99</p>
+                            <input type="number" id="qty1" class="form-control mb-2" placeholder="Enter quantity" min="1" />
+                            <a href="#" onclick="orderViaWhatsApp('Elegant Leather Purse', 'qty1', 49.99); return false;" class="btn btn-success">Order on WhatsApp</a>
+							<div class="order-instructions"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 🔁 Add more purses as needed -->
+            </div>
+        </div>
+
+        <!-- 🍫 Chocolates Section -->
+        <div id="chocolates-section" style="display: none;">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="images/choco1.jpeg" class="card-img-top img-fluid" alt="Chocolate" />
+                        <div class="card-body">
+                            <h5 class="card-title">Delicious Chocolate Box</h5>
+                            <p class="card-text">$19.99</p>
+                            <input type="number" id="qtyChoco1" class="form-control mb-2" placeholder="Enter quantity" min="1" />
+                            <a href="#" onclick="orderViaWhatsApp('Delicious Chocolate Box', 'qtyChoco1', 19.99); return false;" class="btn btn-success">Order on WhatsApp</a>
+                            <div class="order-instructions"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card1">
+                        <img src="images/choco2.jpeg" class="card-img-top img-fluid" alt="Chocolate" />
+                        <div class="card-body">
+                            <h5 class="card-title">Delicious Peanet Chocolate Box</h5>
+                            <p class="card-text">$20.99</p>
+                            <input type="number" id="qtyChoco1p" class="form-control mb-2" placeholder="Enter quantity" min="1" />
+                            <a href="#" onclick="orderViaWhatsApp('Delicious Chocolate Box', 'qtyChoco1p', 20.99); return false;" class="btn btn-success">Order on WhatsApp</a>
+                            <div class="order-instructions"></div>
+                        </div>
+                    </div>
+                </div>				
+                <!-- Add more chocolate cards -->
+            </div>
+        </div>
+
+        <!-- 🍖 Kabab Section -->
+        <div id="kabab-section" style="display: none;">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="images/kabab1.jpeg" class="card-img-top img-fluid" alt="Kabab" />
+                        <div class="card-body">
+                            <h5 class="card-title">Spicy Seekh Kabab</h5>
+                            <p class="card-text">$29.99</p>
+                            <input type="number" id="qtyKabab1" class="form-control mb-2" placeholder="Enter quantity" min="1" />
+                            <a href="#" onclick="orderViaWhatsApp('Spicy Seekh Kabab', 'qtyKabab1', 29.99); return false;" class="btn btn-success">Order on WhatsApp</a>
+                            <div class="order-instructions"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more kabab cards -->
+            </div>
+        </div>
+    </div>
+</body>
 </html>
