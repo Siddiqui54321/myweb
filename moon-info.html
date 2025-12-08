@@ -1,274 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Shop on Line</title>
-    <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <style>
-        .card-img-top {
-            height: 200px;
-            object-fit: cover;
-            width: 100%;
-        }
-
-        /* Floating Cart Sidebar */
-        #cart-sidebar {
-            position: fixed;
-            top: 80px;
-            right: 0;
-            width: 300px;
-            max-height: 80%;
-            overflow-y: auto;
-            background: #f8f9fa;
-            padding: 15px;
-            border-left: 1px solid #ddd;
-            border-radius: 8px 0 0 8px;
-            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-            z-index: 1000;
-            transition: transform 0.3s ease;
-        }
-
-        #cart-sidebar.collapsed {
-            transform: translateX(100%);
-        }
-
-        #cart-toggle {
-            position: fixed;
-            top: 100px;
-            right: 0;
-            background: #007bff;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 8px 0 0 8px;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        #cart-sidebar h4 {
-            margin-bottom: 15px;
-        }
-
-        #cart-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-
+<meta charset="UTF-8">
+<title>Shop on Line</title>
+<link href="bootstrap/bootstrap.min.css" rel="stylesheet">
+<style>
+    body {
+        padding-right: 320px; /* avoid overlap with sidebar */
+    }
+    @media (max-width: 768px) {
         body {
-            padding-right: 320px; /* avoid overlapping with sidebar */
+            padding-right: 0;
         }
+    }
 
-        @media (max-width: 768px) {
-            body {
-                padding-right: 0;
-            }
-            #cart-sidebar {
-                width: 80%;
-            }
-        }
-    </style>
+    .card-img-top {
+        height: 180px;
+        object-fit: cover;
+        width: 100%;
+    }
 
-    <script>
-        // ===================== CART FUNCTIONALITY =====================
-        let cart = [];
+    #cart-sidebar {
+        position: fixed;
+        top: 80px;
+        right: 0;
+        width: 300px;
+        max-height: 80%;
+        overflow-y: auto;
+        background: #f8f9fa;
+        padding: 15px;
+        border-left: 1px solid #ddd;
+        border-radius: 8px 0 0 8px;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+        transition: transform 0.3s ease;
+    }
+    #cart-sidebar.collapsed {
+        transform: translateX(100%);
+    }
+    #cart-toggle {
+        position: fixed;
+        top: 100px;
+        right: 0;
+        background: #007bff;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 8px 0 0 8px;
+        cursor: pointer;
+        z-index: 1001;
+    }
 
-        function addToCart(productName, qtyInputId, price) {
-            let quantity = parseInt(document.getElementById(qtyInputId).value);
+    #cart-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
 
-            if (!quantity || quantity <= 0) {
-                alert("Please enter a valid quantity.");
-                return;
-            }
+    .card-body-top {
+        text-align: center;
+    }
+</style>
+<script>
+let cart = [];
 
-            // Merge duplicates if same product added multiple times
-            let existing = cart.find(item => item.name === productName);
-            if (existing) {
-                existing.qty += quantity;
-                existing.total = existing.qty * existing.price;
-            } else {
-                cart.push({
-                    name: productName,
-                    qty: quantity,
-                    price: price,
-                    total: (quantity * price)
-                });
-            }
+function addToCart(productName, qtyInputId, price) {
+    let qty = parseInt(document.getElementById(qtyInputId).value);
+    if (!qty || qty <= 0) { alert("Enter valid quantity"); return; }
 
-            updateCartUI();
-        }
+    let existing = cart.find(item => item.name === productName);
+    if(existing){
+        existing.qty += qty;
+        existing.total = existing.qty * existing.price;
+    } else {
+        cart.push({name: productName, qty: qty, price: price, total: price*qty});
+    }
+    updateCartUI();
+}
 
-        function updateCartUI() {
-            let list = document.getElementById("cart-items");
-            let totalBill = 0;
-            list.innerHTML = "";
+function updateCartUI(){
+    let list = document.getElementById("cart-items");
+    let totalBill = 0;
+    list.innerHTML = "";
+    cart.forEach(item=>{
+        totalBill += item.price*item.qty;
+        list.innerHTML += `<li class="list-group-item d-flex justify-content-between">
+            <span>${item.name} x${item.qty}</span>
+            <strong>$${(item.price*item.qty).toFixed(2)}</strong>
+        </li>`;
+    });
+    document.getElementById("cart-total").innerText = totalBill.toFixed(2);
+}
 
-            cart.forEach(item => {
-                totalBill += item.price * item.qty;
-                list.innerHTML += `
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>${item.name} (x${item.qty})</span>
-                        <strong>$${(item.price * item.qty).toFixed(2)}</strong>
-                    </li>
-                `;
-            });
+function clearCart(){ cart=[]; updateCartUI(); }
 
-            document.getElementById("cart-total").innerText = totalBill.toFixed(2);
-        }
+function orderViaWhatsAppCart(){
+    if(cart.length==0){ alert("Cart is empty"); return; }
+    let phone="923028345376";
+    let msg="I'm interested in:\n\n";
+    let total=0;
+    cart.forEach(item=>{
+        msg+=`${item.name} x${item.qty} = $${(item.price*item.qty).toFixed(2)}\n`;
+        total += item.price*item.qty;
+    });
+    msg+=`\nTotal Amount: $${total.toFixed(2)}\n\nKindly confirm order via JazzCash or EasyPaisa. Delivery in 2 days.`;
+    let url = "https://wa.me/"+phone+"?text="+encodeURIComponent(msg);
+    window.open(url,'_blank');
+}
 
-        function clearCart() {
-            cart = [];
-            updateCartUI();
-        }
+function showSection(sectionId){
+    ['purses-section','chocolates-section','kabab-section'].forEach(id=>{
+        document.getElementById(id).style.display='none';
+    });
+    document.getElementById(sectionId).style.display='block';
+}
 
-        function orderViaWhatsAppCart() {
-            if(cart.length === 0){
-                alert("Cart is empty. Add items first!");
-                return;
-            }
+function toggleCart(){
+    document.getElementById("cart-sidebar").classList.toggle("collapsed");
+}
 
-            let phone = "923028345376";
-            let messageText = "I'm interested in the following items:\n\n";
-            let totalAmount = 0;
-
-            cart.forEach(item => {
-                messageText += `${item.name} x${item.qty} = $${(item.price * item.qty).toFixed(2)}\n`;
-                totalAmount += item.price * item.qty;
-            });
-
-            messageText += `\nTotal Amount: $${totalAmount.toFixed(2)}\n`;
-            messageText += "\nKindly confirm your order by payment on JazzCash or EasyPaisa account. Delivery will be done within two days.";
-
-            let url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(messageText);
-            window.open(url, '_blank');
-        }
-
-        function showSection(sectionId) {
-            document.getElementById('purses-section').style.display = 'none';
-            document.getElementById('chocolates-section').style.display = 'none';
-            document.getElementById('kabab-section').style.display = 'none';
-            document.getElementById(sectionId).style.display = 'block';
-        }
-
-        function toggleCart() {
-            document.getElementById("cart-sidebar").classList.toggle("collapsed");
-        }
-
-        window.onload = function () {
-            const sharedMessage = `
-                <p class="mt-3 text-muted small">
-                    Kindly confirm your order by payment on <strong>JazzCash</strong> or <strong>EasyPaisa</strong> account.<br />
-                    Delivery will be done within two days.
-                </p>
-            `;
-            document.querySelectorAll('.order-instructions').forEach(div => {
-                div.innerHTML = sharedMessage;
-            });
-
-            showSection('purses-section');
-        };
-    </script>
+window.onload = function(){
+    showSection('purses-section');
+};
+</script>
 </head>
 <body>
-    <!-- ===================== CART TOGGLE BUTTON ===================== -->
-    <div id="cart-toggle" onclick="toggleCart()">🛒 Cart</div>
 
-    <!-- ===================== CART SIDEBAR ===================== -->
-    <div id="cart-sidebar" class="collapsed">
-        <h4>🛒 Your Cart</h4>
-        <ul id="cart-items" class="list-group mb-2"></ul>
-        <h5>Total: $<span id="cart-total">0.00</span></h5>
-        <div id="cart-buttons">
-            <button class="btn btn-danger btn-sm" onclick="clearCart()">Clear Cart</button>
-            <button class="btn btn-success btn-sm" onclick="orderViaWhatsAppCart()">Order via WhatsApp</button>
+<div id="cart-toggle" onclick="toggleCart()">🛒 Cart</div>
+
+<div id="cart-sidebar" class="collapsed">
+    <h4>🛒 Your Cart</h4>
+    <ul id="cart-items" class="list-group mb-2"></ul>
+    <h5>Total: $<span id="cart-total">0.00</span></h5>
+    <div id="cart-buttons">
+        <button class="btn btn-danger btn-sm" onclick="clearCart()">Clear Cart</button>
+        <button class="btn btn-success btn-sm" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
+    </div>
+</div>
+
+<div class="container mt-3">
+<h1 class="text-center mb-4">Shop on Line</h1>
+
+<div class="text-center mb-4">
+<button class="btn btn-primary mx-2" onclick="showSection('chocolates-section')">Chocolates</button>
+<button class="btn btn-danger mx-2" onclick="showSection('kabab-section')">Kabab</button>
+<button class="btn btn-success mx-2" onclick="showSection('purses-section')">Purses</button>
+</div>
+
+<!-- Purses Section -->
+<div id="purses-section" style="display:none;">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    <div class="col">
+        <div class="card h-100 text-center">
+            <div class="card-body card-body-top">
+                <h5 class="card-title">Elegant Leather Purse</h5>
+                <p class="card-text">$49.99</p>
+                <input type="number" id="qty1" class="form-control mb-2" placeholder="Quantity" min="1">
+                <button class="btn btn-primary mb-2" onclick="addToCart('Elegant Leather Purse','qty1',49.99)">Add to Cart</button>
+            </div>
+            <img src="images/purse1.jpg" class="card-img-top" alt="Purse">
         </div>
     </div>
+</div>
+</div>
 
-    <div class="container mt-3">
-        <h1 class="text-center mb-4">Shop on Line</h1>
-
-        <!-- 🔘 Category Buttons -->
-        <div class="text-center mb-4">
-            <button class="btn btn-primary btn-lg mx-2" onclick="showSection('chocolates-section')">Sweets Chocolates</button>
-            <button class="btn btn-danger btn-lg mx-2" onclick="showSection('kabab-section')">Delicious Kabab</button>
-            <button class="btn btn-success btn-lg mx-2" onclick="showSection('purses-section')">Ladies Purses</button>
-        </div>
-
-        <!-- ===================== Purses Section ===================== -->
-        <div id="purses-section" style="display: none;">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-                <div class="col">
-                    <div class="card h-100 text-center">
-                        <!-- Move Add to Cart on top -->
-                        <div class="card-body">
-                            <h5 class="card-title">Elegant Leather Purse</h5>
-                            <p class="card-text">$49.99</p>
-                            <input type="number" id="qty1" class="form-control mb-2" placeholder="Enter quantity" min="1" />
-                            <button class="btn btn-primary mb-2" onclick="addToCart('Elegant Leather Purse', 'qty1', 49.99)">Add to Cart</button>
-                        </div>
-                        <img src="images/purse1.jpg" class="card-img-top" alt="Purse 1" />
-                        <div class="card-body">
-                            <div class="order-instructions"></div>
-                        </div>
-                    </div>
-                </div>
+<!-- Chocolates Section -->
+<div id="chocolates-section" style="display:none;">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    <div class="col">
+        <div class="card h-100 text-center">
+            <div class="card-body card-body-top">
+                <h5 class="card-title">Chocolate Box</h5>
+                <p class="card-text">$19.99</p>
+                <input type="number" id="qtyChoco1" class="form-control mb-2" placeholder="Quantity" min="1">
+                <button class="btn btn-primary mb-2" onclick="addToCart('Chocolate Box','qtyChoco1',19.99)">Add to Cart</button>
             </div>
+            <img src="images/choco1.jpeg" class="card-img-top" alt="Chocolate">
         </div>
-
-        <!-- ===================== Chocolates Section ===================== -->
-        <div id="chocolates-section" style="display: none;">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-                <div class="col">
-                    <div class="card h-100 text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">Delicious Chocolate Box</h5>
-                            <p class="card-text">$19.99</p>
-                            <input type="number" id="qtyChoco1" class="form-control mb-2" placeholder="Enter quantity" min="1" />
-                            <button class="btn btn-primary mb-2" onclick="addToCart('Delicious Chocolate Box', 'qtyChoco1', 19.99)">Add to Cart</button>
-                        </div>
-                        <img src="images/choco1.jpeg" class="card-img-top" alt="Chocolate" />
-                        <div class="card-body">
-                            <div class="order-instructions"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100 text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">Delicious Peanut Chocolate Box</h5>
-                            <p class="card-text">$20.99</p>
-                            <input type="number" id="qtyChoco1p" class="form-control mb-2" placeholder="Enter quantity" min="1" />
-                            <button class="btn btn-primary mb-2" onclick="addToCart('Delicious Peanut Chocolate Box', 'qtyChoco1p', 20.99)">Add to Cart</button>
-                        </div>
-                        <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate" />
-                        <div class="card-body">
-                            <div class="order-instructions"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===================== Kabab Section ===================== -->
-        <div id="kabab-section" style="display: none;">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-                <div class="col">
-                    <div class="card h-100 text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">Spicy Seekh Kabab</h5>
-                            <p class="card-text">$29.99</p>
-                            <input type="number" id="qtyKabab1" class="form-control mb-2" placeholder="Enter quantity" min="1" />
-                            <button class="btn btn-primary mb-2" onclick="addToCart('Spicy Seekh Kabab', 'qtyKabab1', 29.99)">Add to Cart</button>
-                        </div>
-                        <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab" />
-                        <div class="card-body">
-                            <div class="order-instructions"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
+    <div class="col">
+        <div class="card h-100 text-center">
+            <div class="card-body card-body-top">
+                <h5 class="card-title">Peanut Chocolate Box</h5>
+                <p class="card-text">$20.99</p>
+                <input type="number" id="qtyChoco2" class="form-control mb-2" placeholder="Quantity" min="1">
+                <button class="btn btn-primary mb-2" onclick="addToCart('Peanut Chocolate Box','qtyChoco2',20.99)">Add to Cart</button>
+            </div>
+            <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate">
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Kabab Section -->
+<div id="kabab-section" style="display:none;">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    <div class="col">
+        <div class="card h-100 text-center">
+            <div class="card-body card-body-top">
+                <h5 class="card-title">Spicy Seekh Kabab</h5>
+                <p class="card-text">$29.99</p>
+                <input type="number" id="qtyKabab1" class="form-control mb-2" placeholder="Quantity" min="1">
+                <button class="btn btn-primary mb-2" onclick="addToCart('Spicy Seekh Kabab','qtyKabab1',29.99)">Add to Cart</button>
+            </div>
+            <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
 </body>
 </html>
