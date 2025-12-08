@@ -38,14 +38,9 @@
     #cart-sidebar.collapsed {
         transform: translateX(100%);
     }
+
     #cart-toggle {
-        position: fixed;
-        top: 100px;
-        right: 0;
-        background: #007bff;
-        color: white;
-        padding: 8px 12px;
-        border-radius: 8px 0 0 8px;
+        /* No fixed position, part of normal flow */
         cursor: pointer;
         z-index: 1001;
     }
@@ -125,8 +120,6 @@ window.onload = function(){
 </head>
 <body>
 
-<div id="cart-toggle" onclick="toggleCart()">🛒 Cart</div>
-
 <div id="cart-sidebar" class="collapsed">
     <h4>🛒 Your Cart</h4>
     <ul id="cart-items" class="list-group mb-2"></ul>
@@ -138,75 +131,80 @@ window.onload = function(){
 </div>
 
 <div class="container mt-3">
-<h1 class="text-center mb-4">Shop on Line</h1>
+    <!-- Cart Button Above Heading -->
+    <div class="text-center mb-3">
+        <button id="cart-toggle" class="btn btn-warning" onclick="toggleCart()">🛒 Cart</button>
+    </div>
 
-<div class="text-center mb-4">
-<button class="btn btn-primary mx-2" onclick="showSection('chocolates-section')">Chocolates</button>
-<button class="btn btn-danger mx-2" onclick="showSection('kabab-section')">Kabab</button>
-<button class="btn btn-success mx-2" onclick="showSection('purses-section')">Purses</button>
-</div>
+    <h1 class="text-center mb-4">Shop on Line</h1>
 
-<!-- Purses Section -->
-<div id="purses-section" style="display:none;">
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-    <div class="col">
-        <div class="card h-100 text-center">
-            <div class="card-body card-body-top">
-                <h5 class="card-title">Elegant Leather Purse</h5>
-                <p class="card-text">$49.99</p>
-                <input type="number" id="qty1" class="form-control mb-2" placeholder="Quantity" min="1">
-                <button class="btn btn-primary mb-2" onclick="addToCart('Elegant Leather Purse','qty1',49.99)">Add to Cart</button>
+    <div class="text-center mb-4">
+        <button class="btn btn-primary mx-2" onclick="showSection('chocolates-section')">Chocolates</button>
+        <button class="btn btn-danger mx-2" onclick="showSection('kabab-section')">Kabab</button>
+        <button class="btn btn-success mx-2" onclick="showSection('purses-section')">Purses</button>
+    </div>
+
+    <!-- Purses Section -->
+    <div id="purses-section" style="display:none;">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card h-100 text-center">
+                    <div class="card-body card-body-top">
+                        <h5 class="card-title">Elegant Leather Purse</h5>
+                        <p class="card-text">$49.99</p>
+                        <input type="number" id="qty1" class="form-control mb-2" placeholder="Quantity" min="1">
+                        <button class="btn btn-primary mb-2" onclick="addToCart('Elegant Leather Purse','qty1',49.99)">Add to Cart</button>
+                    </div>
+                    <img src="images/purse1.jpg" class="card-img-top" alt="Purse">
+                </div>
             </div>
-            <img src="images/purse1.jpg" class="card-img-top" alt="Purse">
         </div>
     </div>
-</div>
-</div>
 
-<!-- Chocolates Section -->
-<div id="chocolates-section" style="display:none;">
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-    <div class="col">
-        <div class="card h-100 text-center">
-            <div class="card-body card-body-top">
-                <h5 class="card-title">Chocolate Box</h5>
-                <p class="card-text">$19.99</p>
-                <input type="number" id="qtyChoco1" class="form-control mb-2" placeholder="Quantity" min="1">
-                <button class="btn btn-primary mb-2" onclick="addToCart('Chocolate Box','qtyChoco1',19.99)">Add to Cart</button>
+    <!-- Chocolates Section -->
+    <div id="chocolates-section" style="display:none;">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card h-100 text-center">
+                    <div class="card-body card-body-top">
+                        <h5 class="card-title">Chocolate Box</h5>
+                        <p class="card-text">$19.99</p>
+                        <input type="number" id="qtyChoco1" class="form-control mb-2" placeholder="Quantity" min="1">
+                        <button class="btn btn-primary mb-2" onclick="addToCart('Chocolate Box','qtyChoco1',19.99)">Add to Cart</button>
+                    </div>
+                    <img src="images/choco1.jpeg" class="card-img-top" alt="Chocolate">
+                </div>
             </div>
-            <img src="images/choco1.jpeg" class="card-img-top" alt="Chocolate">
+            <div class="col">
+                <div class="card h-100 text-center">
+                    <div class="card-body card-body-top">
+                        <h5 class="card-title">Peanut Chocolate Box</h5>
+                        <p class="card-text">$20.99</p>
+                        <input type="number" id="qtyChoco2" class="form-control mb-2" placeholder="Quantity" min="1">
+                        <button class="btn btn-primary mb-2" onclick="addToCart('Peanut Chocolate Box','qtyChoco2',20.99)">Add to Cart</button>
+                    </div>
+                    <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate">
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col">
-        <div class="card h-100 text-center">
-            <div class="card-body card-body-top">
-                <h5 class="card-title">Peanut Chocolate Box</h5>
-                <p class="card-text">$20.99</p>
-                <input type="number" id="qtyChoco2" class="form-control mb-2" placeholder="Quantity" min="1">
-                <button class="btn btn-primary mb-2" onclick="addToCart('Peanut Chocolate Box','qtyChoco2',20.99)">Add to Cart</button>
-            </div>
-            <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate">
-        </div>
-    </div>
-</div>
-</div>
 
-<!-- Kabab Section -->
-<div id="kabab-section" style="display:none;">
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-    <div class="col">
-        <div class="card h-100 text-center">
-            <div class="card-body card-body-top">
-                <h5 class="card-title">Spicy Seekh Kabab</h5>
-                <p class="card-text">$29.99</p>
-                <input type="number" id="qtyKabab1" class="form-control mb-2" placeholder="Quantity" min="1">
-                <button class="btn btn-primary mb-2" onclick="addToCart('Spicy Seekh Kabab','qtyKabab1',29.99)">Add to Cart</button>
+    <!-- Kabab Section -->
+    <div id="kabab-section" style="display:none;">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card h-100 text-center">
+                    <div class="card-body card-body-top">
+                        <h5 class="card-title">Spicy Seekh Kabab</h5>
+                        <p class="card-text">$29.99</p>
+                        <input type="number" id="qtyKabab1" class="form-control mb-2" placeholder="Quantity" min="1">
+                        <button class="btn btn-primary mb-2" onclick="addToCart('Spicy Seekh Kabab','qtyKabab1',29.99)">Add to Cart</button>
+                    </div>
+                    <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
+                </div>
             </div>
-            <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
         </div>
     </div>
-</div>
-</div>
 
 </div>
 </body>
