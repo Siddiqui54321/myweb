@@ -15,16 +15,33 @@
         #cart-sidebar {
             position: fixed;
             top: 80px;
-            right: 20px;
+            right: 0;
             width: 300px;
             max-height: 80%;
             overflow-y: auto;
             background: #f8f9fa;
             padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            border-left: 1px solid #ddd;
+            border-radius: 8px 0 0 8px;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
             z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        #cart-sidebar.collapsed {
+            transform: translateX(100%);
+        }
+
+        #cart-toggle {
+            position: fixed;
+            top: 100px;
+            right: 0;
+            background: #007bff;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px 0 0 8px;
+            cursor: pointer;
+            z-index: 1001;
         }
 
         #cart-sidebar h4 {
@@ -37,8 +54,15 @@
             margin-top: 10px;
         }
 
+        /* Adjust body padding to not overlap with sidebar */
         body {
-            padding-right: 340px; /* Avoid overlapping content with sidebar */
+            padding-right: 320px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-right: 0;
+            }
         }
     </style>
 
@@ -54,7 +78,6 @@
                 return;
             }
 
-            // Add item to cart array
             cart.push({
                 name: productName,
                 qty: quantity,
@@ -73,7 +96,6 @@
 
             cart.forEach(item => {
                 totalBill += item.total;
-
                 list.innerHTML += `
                     <li class="list-group-item d-flex justify-content-between">
                         <span>${item.name} (x${item.qty})</span>
@@ -122,6 +144,11 @@
             document.getElementById(sectionId).style.display = 'block';
         }
 
+        // ===================== TOGGLE CART =====================
+        function toggleCart() {
+            document.getElementById("cart-sidebar").classList.toggle("collapsed");
+        }
+
         // ===================== ON LOAD =====================
         window.onload = function () {
             const sharedMessage = `
@@ -141,8 +168,11 @@
     </script>
 </head>
 <body>
+    <!-- ===================== CART TOGGLE BUTTON ===================== -->
+    <div id="cart-toggle" onclick="toggleCart()">🛒 Cart</div>
+
     <!-- ===================== CART SIDEBAR ===================== -->
-    <div id="cart-sidebar">
+    <div id="cart-sidebar" class="collapsed">
         <h4>🛒 Your Cart</h4>
         <ul id="cart-items" class="list-group mb-2"></ul>
         <h5>Total: $<span id="cart-total">0.00</span></h5>
