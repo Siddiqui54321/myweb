@@ -10,15 +10,10 @@
             object-fit: cover;
             width: 100%;
         }
-        #cart-container {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
     </style>
+
     <script>
-        // ---------- Cart Logic ----------
+        // ===================== CART FUNCTIONALITY =====================
         let cart = [];
 
         function addToCart(productName, qtyInputId, price) {
@@ -29,6 +24,7 @@
                 return;
             }
 
+            // Add item to cart array
             cart.push({
                 name: productName,
                 qty: quantity,
@@ -64,7 +60,7 @@
             updateCartUI();
         }
 
-        // ---------- WhatsApp Order ----------
+        // ===================== WHATSAPP ORDER =====================
         function orderViaWhatsApp(productName, qtyInputId, price) {
             var quantity = document.getElementById(qtyInputId).value;
 
@@ -88,7 +84,7 @@
             window.open(url, '_blank');
         }
 
-        // ---------- Section Switching ----------
+        // ===================== SHOW SECTIONS =====================
         function showSection(sectionId) {
             document.getElementById('purses-section').style.display = 'none';
             document.getElementById('chocolates-section').style.display = 'none';
@@ -97,6 +93,7 @@
             document.getElementById(sectionId).style.display = 'block';
         }
 
+        // ===================== ON LOAD =====================
         window.onload = function () {
             const sharedMessage = `
                 <p class="mt-3 text-muted small">
@@ -115,7 +112,15 @@
     </script>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-3">
+        <!-- CART DISPLAY -->
+        <h3>Your Cart</h3>
+        <ul id="cart-items" class="list-group mb-2"></ul>
+        <h4>Total: $<span id="cart-total">0.00</span></h4>
+        <button class="btn btn-danger btn-sm mb-4" onclick="clearCart()">Clear Cart</button>
+    </div>
+
+    <div class="container mt-3">
         <h1 class="text-center mb-4">Shop on Line</h1>
 
         <!-- 🔘 Category Buttons -->
@@ -123,14 +128,6 @@
             <button type="button" class="btn btn-primary btn-lg mx-2" onclick="showSection('chocolates-section')">Sweets Chocolates</button>
             <button type="button" class="btn btn-danger btn-lg mx-2" onclick="showSection('kabab-section')">Delicious Kabab</button>
             <button type="button" class="btn btn-success btn-lg mx-2" onclick="showSection('purses-section')">Ladies Purses</button>
-        </div>
-
-        <!-- ---------- Cart Section ---------- -->
-        <div id="cart-container">
-            <h3>Your Cart</h3>
-            <ul id="cart-items" class="list-group mb-2"></ul>
-            <h4>Total: $<span id="cart-total">0.00</span></h4>
-            <button class="btn btn-danger btn-sm" onclick="clearCart()">Clear Cart</button>
         </div>
 
         <!-- ✅ Purses Section -->
@@ -149,7 +146,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Add more purses if needed -->
+                <!-- Add more purses here -->
             </div>
         </div>
 
@@ -175,14 +172,14 @@
                         <div class="card-body">
                             <h5 class="card-title">Delicious Peanut Chocolate Box</h5>
                             <p class="card-text">$20.99</p>
-                            <input type="number" id="qtyChoco2" class="form-control mb-2" placeholder="Enter quantity" min="1" />
-                            <button class="btn btn-primary" onclick="addToCart('Delicious Peanut Chocolate Box', 'qtyChoco2', 20.99)">Add to Cart</button>
-                            <a href="#" onclick="orderViaWhatsApp('Delicious Peanut Chocolate Box', 'qtyChoco2', 20.99); return false;" class="btn btn-success mt-2">Order on WhatsApp</a>
+                            <input type="number" id="qtyChoco1p" class="form-control mb-2" placeholder="Enter quantity" min="1" />
+                            <button class="btn btn-primary" onclick="addToCart('Delicious Peanut Chocolate Box', 'qtyChoco1p', 20.99)">Add to Cart</button>
+                            <a href="#" onclick="orderViaWhatsApp('Delicious Peanut Chocolate Box', 'qtyChoco1p', 20.99); return false;" class="btn btn-success mt-2">Order on WhatsApp</a>
                             <div class="order-instructions"></div>
                         </div>
                     </div>
                 </div>
-                <!-- Add more chocolates if needed -->
+                <!-- Add more chocolates here -->
             </div>
         </div>
 
@@ -202,7 +199,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Add more kababs if needed -->
+                <!-- Add more kababs here -->
             </div>
         </div>
     </div>
