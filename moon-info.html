@@ -6,7 +6,7 @@
     <link href="bootstrap/bootstrap.min.css" rel="stylesheet" />
     <style>
         .card-img-top {
-            height: 250px;
+            height: 200px;
             object-fit: cover;
             width: 100%;
         }
@@ -54,14 +54,16 @@
             margin-top: 10px;
         }
 
-        /* Adjust body padding to not overlap with sidebar */
         body {
-            padding-right: 320px;
+            padding-right: 320px; /* avoid overlapping with sidebar */
         }
 
         @media (max-width: 768px) {
             body {
                 padding-right: 0;
+            }
+            #cart-sidebar {
+                width: 80%;
             }
         }
     </style>
@@ -78,15 +80,21 @@
                 return;
             }
 
-            cart.push({
-                name: productName,
-                qty: quantity,
-                price: price,
-                total: (quantity * price)
-            });
+            // Merge duplicates if same product added multiple times
+            let existing = cart.find(item => item.name === productName);
+            if (existing) {
+                existing.qty += quantity;
+                existing.total = existing.qty * existing.price;
+            } else {
+                cart.push({
+                    name: productName,
+                    qty: quantity,
+                    price: price,
+                    total: (quantity * price)
+                });
+            }
 
             updateCartUI();
-            alert(productName + " added to cart!");
         }
 
         function updateCartUI() {
@@ -95,11 +103,11 @@
             list.innerHTML = "";
 
             cart.forEach(item => {
-                totalBill += item.total;
+                totalBill += item.price * item.qty;
                 list.innerHTML += `
                     <li class="list-group-item d-flex justify-content-between">
                         <span>${item.name} (x${item.qty})</span>
-                        <strong>$${item.total.toFixed(2)}</strong>
+                        <strong>$${(item.price * item.qty).toFixed(2)}</strong>
                     </li>
                 `;
             });
@@ -112,46 +120,39 @@
             updateCartUI();
         }
 
-        // ===================== WHATSAPP ORDER =====================
+        function orderViaWhatsAppCart() {
+            if(cart.length === 0){
+                alert("Cart is empty. Add items first!");
+                return;
+            }
 
-function orderViaWhatsAppCart() {
-    if(cart.length === 0){
-        alert("Cart is empty. Add items first!");
-        return;
-    }
+            let phone = "923028345376";
+            let messageText = "I'm interested in the following items:\n\n";
+            let totalAmount = 0;
 
-    let phone = "923028345376";
-    let messageText = "I'm interested in the following items:\n\n";
-    let totalAmount = 0;
+            cart.forEach(item => {
+                messageText += `${item.name} x${item.qty} = $${(item.price * item.qty).toFixed(2)}\n`;
+                totalAmount += item.price * item.qty;
+            });
 
-    // Loop through cart and correctly sum totals
-    cart.forEach(item => {
-        messageText += `${item.name} x${item.qty} = $${(item.price * item.qty).toFixed(2)}\n`;
-        totalAmount += item.price * item.qty;
-    });
+            messageText += `\nTotal Amount: $${totalAmount.toFixed(2)}\n`;
+            messageText += "\nKindly confirm your order by payment on JazzCash or EasyPaisa account. Delivery will be done within two days.";
 
-    messageText += `\nTotal Amount: $${totalAmount.toFixed(2)}\n`;
-    messageText += "\nKindly confirm your order by payment on JazzCash or EasyPaisa account. Delivery will be done within two days.";
+            let url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(messageText);
+            window.open(url, '_blank');
+        }
 
-    let url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(messageText);
-    window.open(url, '_blank');
-}        
-
-        // ===================== SHOW SECTIONS =====================
         function showSection(sectionId) {
             document.getElementById('purses-section').style.display = 'none';
             document.getElementById('chocolates-section').style.display = 'none';
             document.getElementById('kabab-section').style.display = 'none';
-
             document.getElementById(sectionId).style.display = 'block';
         }
 
-        // ===================== TOGGLE CART =====================
         function toggleCart() {
             document.getElementById("cart-sidebar").classList.toggle("collapsed");
         }
 
-        // ===================== ON LOAD =====================
         window.onload = function () {
             const sharedMessage = `
                 <p class="mt-3 text-muted small">
@@ -159,12 +160,10 @@ function orderViaWhatsAppCart() {
                     Delivery will be done within two days.
                 </p>
             `;
-
             document.querySelectorAll('.order-instructions').forEach(div => {
                 div.innerHTML = sharedMessage;
             });
 
-            // Show default section
             showSection('purses-section');
         };
     </script>
@@ -189,22 +188,25 @@ function orderViaWhatsAppCart() {
 
         <!-- 🔘 Category Buttons -->
         <div class="text-center mb-4">
-            <button type="button" class="btn btn-primary btn-lg mx-2" onclick="showSection('chocolates-section')">Sweets Chocolates</button>
-            <button type="button" class="btn btn-danger btn-lg mx-2" onclick="showSection('kabab-section')">Delicious Kabab</button>
-            <button type="button" class="btn btn-success btn-lg mx-2" onclick="showSection('purses-section')">Ladies Purses</button>
+            <button class="btn btn-primary btn-lg mx-2" onclick="showSection('chocolates-section')">Sweets Chocolates</button>
+            <button class="btn btn-danger btn-lg mx-2" onclick="showSection('kabab-section')">Delicious Kabab</button>
+            <button class="btn btn-success btn-lg mx-2" onclick="showSection('purses-section')">Ladies Purses</button>
         </div>
 
         <!-- ===================== Purses Section ===================== -->
         <div id="purses-section" style="display: none;">
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="images/purse1.jpg" class="card-img-top img-fluid" alt="Purse 1" />
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card h-100 text-center">
+                        <!-- Move Add to Cart on top -->
                         <div class="card-body">
                             <h5 class="card-title">Elegant Leather Purse</h5>
                             <p class="card-text">$49.99</p>
                             <input type="number" id="qty1" class="form-control mb-2" placeholder="Enter quantity" min="1" />
-                            <button class="btn btn-primary" onclick="addToCart('Elegant Leather Purse', 'qty1', 49.99)">Add to Cart</button>
+                            <button class="btn btn-primary mb-2" onclick="addToCart('Elegant Leather Purse', 'qty1', 49.99)">Add to Cart</button>
+                        </div>
+                        <img src="images/purse1.jpg" class="card-img-top" alt="Purse 1" />
+                        <div class="card-body">
                             <div class="order-instructions"></div>
                         </div>
                     </div>
@@ -214,27 +216,32 @@ function orderViaWhatsAppCart() {
 
         <!-- ===================== Chocolates Section ===================== -->
         <div id="chocolates-section" style="display: none;">
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="images/choco1.jpeg" class="card-img-top img-fluid" alt="Chocolate" />
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card h-100 text-center">
                         <div class="card-body">
                             <h5 class="card-title">Delicious Chocolate Box</h5>
                             <p class="card-text">$19.99</p>
                             <input type="number" id="qtyChoco1" class="form-control mb-2" placeholder="Enter quantity" min="1" />
-                            <button class="btn btn-primary" onclick="addToCart('Delicious Chocolate Box', 'qtyChoco1', 19.99)">Add to Cart</button>
+                            <button class="btn btn-primary mb-2" onclick="addToCart('Delicious Chocolate Box', 'qtyChoco1', 19.99)">Add to Cart</button>
+                        </div>
+                        <img src="images/choco1.jpeg" class="card-img-top" alt="Chocolate" />
+                        <div class="card-body">
                             <div class="order-instructions"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="images/choco2.jpeg" class="card-img-top img-fluid" alt="Chocolate" />
+
+                <div class="col">
+                    <div class="card h-100 text-center">
                         <div class="card-body">
                             <h5 class="card-title">Delicious Peanut Chocolate Box</h5>
                             <p class="card-text">$20.99</p>
                             <input type="number" id="qtyChoco1p" class="form-control mb-2" placeholder="Enter quantity" min="1" />
-                            <button class="btn btn-primary" onclick="addToCart('Delicious Peanut Chocolate Box', 'qtyChoco1p', 20.99)">Add to Cart</button>
+                            <button class="btn btn-primary mb-2" onclick="addToCart('Delicious Peanut Chocolate Box', 'qtyChoco1p', 20.99)">Add to Cart</button>
+                        </div>
+                        <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate" />
+                        <div class="card-body">
                             <div class="order-instructions"></div>
                         </div>
                     </div>
@@ -244,15 +251,17 @@ function orderViaWhatsAppCart() {
 
         <!-- ===================== Kabab Section ===================== -->
         <div id="kabab-section" style="display: none;">
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="images/kabab1.jpeg" class="card-img-top img-fluid" alt="Kabab" />
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card h-100 text-center">
                         <div class="card-body">
                             <h5 class="card-title">Spicy Seekh Kabab</h5>
                             <p class="card-text">$29.99</p>
                             <input type="number" id="qtyKabab1" class="form-control mb-2" placeholder="Enter quantity" min="1" />
-                            <button class="btn btn-primary" onclick="addToCart('Spicy Seekh Kabab', 'qtyKabab1', 29.99)">Add to Cart</button>
+                            <button class="btn btn-primary mb-2" onclick="addToCart('Spicy Seekh Kabab', 'qtyKabab1', 29.99)">Add to Cart</button>
+                        </div>
+                        <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab" />
+                        <div class="card-body">
                             <div class="order-instructions"></div>
                         </div>
                     </div>
