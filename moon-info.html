@@ -4,14 +4,13 @@
 <meta charset="UTF-8">
 <title>Shop on Line</title>
 <link href="bootstrap/bootstrap.min.css" rel="stylesheet">
+
 <style>
     body {
-        padding-right: 0px; /* avoid overlap with sidebar */
+        padding-right: 0px;
     }
     @media (max-width: 768px) {
-        body {
-            padding-right: 0;
-        }
+        body { padding-right: 0; }
     }
 
     .card-img-top {
@@ -30,20 +29,69 @@
 
     #cart-buttons {
         display: flex;
-        justify-content: left; /*space-between;*/
-		gap: 15px;
+        justify-content: left;
+        gap: 15px;
         margin-top: 10px;
     }
 
     .card-body-top {
         text-align: center;
     }
-	
-}
+
+    /* ===== Quantity Button Design ===== */
+    .qty-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+    }
+
+    .qty-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: none;
+        background-color: #0d6efd;
+        color: white;
+        font-size: 22px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .qty-btn:hover {
+        background-color: #0b5ed7;
+        transform: scale(1.1);
+    }
+
+    .qty-input {
+        width: 70px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+    }
 </style>
+
 <script>
 let cart = [];
 
+/* === Increase & Decrease Qty === */
+function increaseQty(id) {
+    let input = document.getElementById(id);
+    input.value = parseInt(input.value || 1) + 1;
+}
+
+function decreaseQty(id) {
+    let input = document.getElementById(id);
+    let value = parseInt(input.value || 1);
+    if (value > 1) input.value = value - 1;
+}
+
+/* === Add to Cart Function === */
 function addToCart(productName, qtyInputId, price) {
     let qty = parseInt(document.getElementById(qtyInputId).value);
     if (!qty || qty <= 0) { alert("Enter valid quantity"); return; }
@@ -72,18 +120,24 @@ function updateCartUI(){
     document.getElementById("cart-total").innerText = totalBill.toFixed(2);
 }
 
-function clearCart(){ cart=[]; updateCartUI(); }
+function clearCart(){
+    cart = [];
+    updateCartUI();
+}
 
 function orderViaWhatsAppCart(){
     if(cart.length==0){ alert("Cart is empty"); return; }
     let phone="923028345376";
     let msg="I'm interested in:\n\n";
     let total=0;
+
     cart.forEach(item=>{
         msg+=`${item.name} x${item.qty} = $${(item.price*item.qty).toFixed(2)}\n`;
         total += item.price*item.qty;
     });
+
     msg+=`\nTotal Amount: $${total.toFixed(2)}\n\nKindly confirm order via JazzCash or EasyPaisa. Delivery in 2 days.`;
+
     let url = "https://wa.me/"+phone+"?text="+encodeURIComponent(msg);
     window.open(url,'_blank');
 }
@@ -99,12 +153,13 @@ window.onload = function(){
     showSection('purses-section');
 };
 </script>
+
 </head>
 <body>
 
 <div class="container mt-3">
 
-    <!-- Cart Details at Top -->
+<!-- Cart Details at Top -->
     <div id="cart-details">
         <h4>🛒 Your Cart</h4>
         <ul id="cart-items" class="list-group mb-2"></ul>
@@ -115,7 +170,7 @@ window.onload = function(){
         </div>
     </div>
 
-    <h1 class="text-center mb-4" font-size: 26px>Shop-on-Line</h1>
+    <h1 class="text-center mb-4" style="font-size: 26px;">Shop-on-Line</h1>
 
     <div class="text-center mb-4">
         <button class="btn btn-primary mx-2" style="font-size: 40px;" onclick="showSection('chocolates-section')">Chocolates</button>
@@ -128,15 +183,22 @@ window.onload = function(){
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
             <div class="col">
                 <div class="card h-100 text-center">
-					<img src="images/purse1.jpg" class="card-img-top" alt="Purse">
+                    <img src="images/purse1.jpg" class="card-img-top" alt="Purse">
                     <div class="card-body card-body-top">
                         <h5 class="card-title" style="font-size: 25px;">Elegant Leather Purse</h5>
                         <p class="card-text">$49.99</p>
-                        <input type="number" id="qty1" class="form-control mb-2" placeholder="Quantity" min="1">
+
+                        <!-- qty control -->
+                        <div class="qty-box">
+                            <button class="qty-btn" onclick="decreaseQty('qty1')">−</button>
+                            <input type="number" id="qty1" class="form-control qty-input" value="1" min="1">
+                            <button class="qty-btn" onclick="increaseQty('qty1')">+</button>
+                        </div>
+
                     </div>
                     <!-- Add to Cart button below image -->
                     <div class="card-body text-center">
-                        <button class="btn btn-primary mb-2" style="font-size: 22px"; onclick="addToCart('Elegant Leather Purse','qty1',49.99)">Add to Cart</button>
+                        <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Elegant Leather Purse','qty1',49.99)">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -146,58 +208,87 @@ window.onload = function(){
     <!-- Chocolates Section -->
     <div id="chocolates-section" style="display:none;">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
             <div class="col">
                 <div class="card h-100 text-center">
-				                    <img src="images/choco1.jpeg" class="card-img-top" alt="Chocolate">
+                    <img src="images/choco1.jpeg" class="card-img-top" alt="Chocolate">
                     <div class="card-body card-body-top">
                         <h5 class="card-title" style="font-size: 25px;">Chocolate Box</h5>
                         <p class="card-text">$19.99</p>
-                        <input type="number" id="qtyChoco1" class="form-control mb-2" placeholder="Quantity" min="1">
+
+                        <div class="qty-box">
+                            <button class="qty-btn" onclick="decreaseQty('qtyChoco1')">−</button>
+                            <input type="number" id="qtyChoco1" class="form-control qty-input" value="1" min="1">
+                            <button class="qty-btn" onclick="increaseQty('qtyChoco1')">+</button>
+                        </div>
+
                     </div>
                     <div class="card-body text-center">
                         <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Chocolate Box','qtyChoco1',19.99)">Add to Cart</button>
                     </div>
                 </div>
             </div>
+
             <div class="col">
                 <div class="card h-100 text-center">
-				 <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate">
-                    <div class="card-body card-body-top">					                   
+                    <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate">
+                    <div class="card-body card-body-top">
                         <h5 class="card-title" style="font-size: 25px;">Peanut Chocolate Box</h5>
                         <p class="card-text">$20.99</p>
-                        <input type="number" id="qtyChoco2" class="form-control mb-2" placeholder="Quantity" min="1">
+
+                        <div class="qty-box">
+                            <button class="qty-btn" onclick="decreaseQty('qtyChoco2')">−</button>
+                            <input type="number" id="qtyChoco2" class="form-control qty-input" value="1" min="1">
+                            <button class="qty-btn" onclick="increaseQty('qtyChoco2')">+</button>
+                        </div>
+
                     </div>
                     <div class="card-body text-center">
                         <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Peanut Chocolate Box','qtyChoco2',20.99)">Add to Cart</button>
                     </div>
                 </div>
             </div>
+
             <div class="col">
                 <div class="card h-100 text-center">
-				 <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate">
-                    <div class="card-body card-body-top">					                   
+                    <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate">
+                    <div class="card-body card-body-top">
                         <h5 class="card-title" style="font-size: 25px;">Plain Chocolate Box</h5>
                         <p class="card-text">$10.99</p>
-                        <input type="number" id="qtyChoco3" class="form-control mb-2" placeholder="Quantity" min="1">
+
+                        <div class="qty-box">
+                            <button class="qty-btn" onclick="decreaseQty('qtyChoco3')">−</button>
+                            <input type="number" id="qtyChoco3" class="form-control qty-input" value="1" min="1">
+                            <button class="qty-btn" onclick="increaseQty('qtyChoco3')">+</button>
+                        </div>
+
                     </div>
                     <div class="card-body text-center">
                         <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Plain Chocolate Box','qtyChoco3',10.99)">Add to Cart</button>
                     </div>
                 </div>
-            </div>		
+            </div>
+
             <div class="col">
                 <div class="card h-100 text-center">
-				 <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate">
-                    <div class="card-body card-body-top">					                   
+                    <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate">
+                    <div class="card-body card-body-top">
                         <h5 class="card-title" style="font-size: 25px;">Black Chocolate Box</h5>
                         <p class="card-text">$5.99</p>
-                        <input type="number" id="qtyChoco4" class="form-control mb-2" placeholder="Quantity" min="1">
+
+                        <div class="qty-box">
+                            <button class="qty-btn" onclick="decreaseQty('qtyChoco4')">−</button>
+                            <input type="number" id="qtyChoco4" class="form-control qty-input" value="1" min="1">
+                            <button class="qty-btn" onclick="increaseQty('qtyChoco4')">+</button>
+                        </div>
+
                     </div>
                     <div class="card-body text-center">
                         <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Black Chocolate Box','qtyChoco4',5.99)">Add to Cart</button>
                     </div>
                 </div>
-            </div>						
+            </div>
+
         </div>
     </div>
 
@@ -206,11 +297,17 @@ window.onload = function(){
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
             <div class="col">
                 <div class="card h-100 text-center">
-				                    <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
+                    <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
                     <div class="card-body card-body-top">
                         <h5 class="card-title" style="font-size: 25px;">Spicy Seekh Kabab</h5>
                         <p class="card-text">$29.99</p>
-                        <input type="number" id="qtyKabab1" class="form-control mb-2" placeholder="Quantity" min="1">
+
+                        <div class="qty-box">
+                            <button class="qty-btn" onclick="decreaseQty('qtyKabab1')">−</button>
+                            <input type="number" id="qtyKabab1" class="form-control qty-input" value="1" min="1">
+                            <button class="qty-btn" onclick="increaseQty('qtyKabab1')">+</button>
+                        </div>
+
                     </div>
                     <div class="card-body text-center">
                         <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Spicy Seekh Kabab','qtyKabab1',29.99)">Add to Cart</button>
@@ -219,12 +316,15 @@ window.onload = function(){
             </div>
         </div>
     </div>
-    <!-- QA Section -->
-	<div class="text-center mt-3 mb-3">
-		<h3>Scan to Open Website</h3>
-		<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://siddiqui54321.github.io/myweb/moon-info.html" 
-			alt="QR Code" class="img-fluid" />
-	</div>
-</div>
+
+    <!-- QR Section -->
+    <div class="text-center mt-3 mb-3">
+        <h3>Scan to Open Website</h3>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://siddiqui54321.github.io/myweb/moon-info.html" 
+             alt="QR Code" class="img-fluid" />
+    </div>
+
+</div> <!-- /.container -->
+
 </body>
 </html>
