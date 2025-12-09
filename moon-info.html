@@ -75,10 +75,19 @@
         font-weight: bold;
     }
 
-.btn-equal {
-    font-size: 20px;
-    width: 150px;
-}	
+	.btn-equal {
+		font-size: 30px;
+		font-weight: bold;
+		width: 150px;
+		height: 60px;		
+	}
+	
+	.btn-equal-head {
+		font-size: 30px;
+		font-weight: bold;
+		width: 180px;
+		height: 60px;		
+	}	
 </style>
 
 <script>
@@ -179,17 +188,17 @@ window.onload = function(){
         <ul id="cart-items" class="list-group mb-2"></ul>
         <h5>Total: $<span id="cart-total">0.00</span></h5>
         <div id="cart-buttons">
-            <button class="btn btn-danger btn-sm" style="font-size: 20px;" onclick="clearCart()">Clear Cart</button>
-            <button class="btn btn-success btn-sm" style="font-size: 20px;" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
+            <button class="btn btn-danger btn-sm btn-equal-head" onclick="clearCart()">Clear Cart</button>
+            <button class="btn btn-success btn-sm btn-equal-head" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
         </div>
     </div>
 
-<h1 class="text-center mb-4" style="font-size: 26px;">Shop-on-Line</h1>
+<h1 class="text-center mb-4">Shop-on-Line</h1>
 
 <div class="text-center mb-4">
-    <button class="btn btn-primary mx-2" style="font-size: 40px;" onclick="showSection('chocolates-section')">Chocolates</button>
-    <button class="btn btn-danger mx-2" style="font-size: 40px;" onclick="showSection('kabab-section')">Kabab</button>
-    <button class="btn btn-success mx-2" style="font-size: 40px;" onclick="showSection('purses-section')">Purses</button>
+    <button class="btn btn-primary mx-2 btn-equal-head" onclick="showSection('chocolates-section')">Chocolates</button>
+    <button class="btn btn-danger mx-2 btn-equal-head"  onclick="showSection('kabab-section')">Kabab</button>
+    <button class="btn btn-success mx-2 btn-equal-head" onclick="showSection('purses-section')">Purses</button>
 </div>
 
 <!-- Purses Section -->
@@ -199,7 +208,7 @@ window.onload = function(){
             <div class="card h-100 text-center">
                 <img src="images/purse1.jpg" class="card-img-top" alt="Purse">
                 <div class="card-body card-body-top">
-                    <h5 class="card-title" style="font-size: 25px;">Elegant Leather Purse</h5>
+                    <h5 class="card-title">Elegant Leather Purse</h5>
                     <p class="card-text">$49.99</p>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="decreaseQty('qty1')">−</button>
@@ -208,8 +217,8 @@ window.onload = function(){
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" style="font-size: 22px;" btn-equal onclick="addToCart('Elegant Leather Purse','qty1',49.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2 btn-equal" style="font-size: 16px;" onclick="removeFromCart('Elegant Leather Purse')">Clear</button>
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Elegant Leather Purse','qty1',49.99)">Add to Cart</button>
+                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Elegant Leather Purse')">Clear</button>
                 </div>
             </div>
         </div>
@@ -224,7 +233,7 @@ window.onload = function(){
             <div class="card h-100 text-center">
                 <img src="images/choco1.jpeg" class="card-img-top" alt="Chocolate">
                 <div class="card-body card-body-top">
-                    <h5 class="card-title" style="font-size: 25px;">Chocolate Box</h5>
+                    <h5 class="card-title">Chocolate Box</h5>
                     <p class="card-text">$19.99</p>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="decreaseQty('qtyChoco1')">−</button>
@@ -233,8 +242,8 @@ window.onload = function(){
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Chocolate Box','qtyChoco1',19.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2" style="font-size: 16px;" onclick="removeFromCart('Chocolate Box')">Clear</button>
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Chocolate Box','qtyChoco1',19.99)">Add to Cart</button>
+                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Chocolate Box')">Clear</button>
                 </div>
             </div>
         </div>
@@ -242,7 +251,7 @@ window.onload = function(){
             <div class="card h-100 text-center">
                 <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate">
                 <div class="card-body card-body-top">
-                    <h5 class="card-title" style="font-size: 25px;">Peanut Chocolate Box</h5>
+                    <h5 class="card-title">Peanut Chocolate Box</h5>
                     <p class="card-text">$20.99</p>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="decreaseQty('qtyChoco2')">−</button>
@@ -251,8 +260,8 @@ window.onload = function(){
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Peanut Chocolate Box','qtyChoco2',20.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2" style="font-size: 16px;" onclick="removeFromCart('Peanut Chocolate Box')">Clear</button>
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Peanut Chocolate Box','qtyChoco2',20.99)">Add to Cart</button>
+                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Peanut Chocolate Box')">Clear</button>
                 </div>
             </div>
         </div>
@@ -260,7 +269,7 @@ window.onload = function(){
             <div class="card h-100 text-center">
                 <img src="images/choco3.jpeg" class="card-img-top" alt="Chocolate">
                 <div class="card-body card-body-top">
-                    <h5 class="card-title" style="font-size: 25px;">Peanut Chocolate Box</h5>
+                    <h5 class="card-title" >Peanut Chocolate Box</h5>
                     <p class="card-text">$20.99</p>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="decreaseQty('qtyChoco3')">−</button>
@@ -269,8 +278,8 @@ window.onload = function(){
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Peanut Chocolate Box','qtyChoco3',20.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2" style="font-size: 16px;" onclick="removeFromCart('Peanut Chocolate Box')">Clear</button>
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Peanut Chocolate Box','qtyChoco3',20.99)">Add to Cart</button>
+                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Peanut Chocolate Box')">Clear</button>
                 </div>
             </div>
         </div>
@@ -278,7 +287,7 @@ window.onload = function(){
             <div class="card h-100 text-center">
                 <img src="images/choco3.jpeg" class="card-img-top" alt="Chocolate">
                 <div class="card-body card-body-top">
-                    <h5 class="card-title" style="font-size: 25px;">Peanut Chocolate Box</h5>
+                    <h5 class="card-title">Peanut Chocolate Box</h5>
                     <p class="card-text">$20.99</p>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="decreaseQty('qtyChoco4')">−</button>
@@ -287,8 +296,8 @@ window.onload = function(){
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Peanut Chocolate Box','qtyChoco4',20.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2" style="font-size: 16px;" onclick="removeFromCart('Peanut Chocolate Box')">Clear</button>
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Peanut Chocolate Box','qtyChoco4',20.99)">Add to Cart</button>
+                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Peanut Chocolate Box')">Clear</button>
                 </div>
             </div>
         </div>		
@@ -304,7 +313,7 @@ window.onload = function(){
             <div class="card h-100 text-center">
                 <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
                 <div class="card-body card-body-top">
-                    <h5 class="card-title" style="font-size: 25px;">Spicy Seekh Kabab</h5>
+                    <h5 class="card-title">Spicy Seekh Kabab</h5>
                     <p class="card-text">$29.99</p>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="decreaseQty('qtyKabab1')">−</button>
@@ -313,8 +322,8 @@ window.onload = function(){
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Spicy Seekh Kabab','qtyKabab1',29.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2" style="font-size: 16px;" onclick="removeFromCart('Spicy Seekh Kabab')">Clear</button>
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Spicy Seekh Kabab','qtyKabab1',29.99)">Add to Cart</button>
+                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Spicy Seekh Kabab')">Clear</button>
                 </div>
             </div>
         </div>
