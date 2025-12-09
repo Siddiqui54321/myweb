@@ -78,7 +78,7 @@
 	.btn-equal {
 		font-size: 30px;
 		font-weight: bold;
-		width: 150px;
+		width: 130px;
 		height: 60px;		
 	}
 	
@@ -87,6 +87,10 @@
 		font-weight: bold;
 		width: 180px;
 		height: 60px;		
+	}	
+	.set-txt-font {
+		font-size: 30px;
+		font-weight: bold;
 	}	
 </style>
 
@@ -184,9 +188,9 @@ window.onload = function(){
 
 <!-- Cart Details at Top -->
     <div id="cart-details">
-        <h4>🛒 Your Cart</h4>
+        <h2>🛒 Your Cart</h2>
         <ul id="cart-items" class="list-group mb-2"></ul>
-        <h5>Total: $<span id="cart-total">0.00</span></h5>
+        <h3>Total: $<span id="cart-total">0.00</span></h3>
         <div id="cart-buttons">
             <button class="btn btn-danger btn-sm btn-equal-head" onclick="clearCart()">Clear Cart</button>
             <button class="btn btn-success btn-sm btn-equal-head" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
@@ -208,8 +212,8 @@ window.onload = function(){
             <div class="card h-100 text-center">
                 <img src="images/purse1.jpg" class="card-img-top" alt="Purse">
                 <div class="card-body card-body-top">
-                    <h5 class="card-title">Elegant Leather Purse</h5>
-                    <p class="card-text">$49.99</p>
+                    <h5 class="card-title set-txt-font">Elegant Leather Purse</h5>
+                    <p class="card-text set-txt-font">$49.99</p>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="decreaseQty('qty1')">−</button>
                         <input type="number" id="qty1" class="form-control qty-input" value="1" min="1">
@@ -233,8 +237,8 @@ window.onload = function(){
             <div class="card h-100 text-center">
                 <img src="images/choco1.jpeg" class="card-img-top" alt="Chocolate">
                 <div class="card-body card-body-top">
-                    <h5 class="card-title">Chocolate Box</h5>
-                    <p class="card-text">$19.99</p>
+                    <h5 class="card-title set-txt-font">Chocolate Box</h5>
+                    <p class="card-text set-txt-font">$19.99</p>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="decreaseQty('qtyChoco1')">−</button>
                         <input type="number" id="qtyChoco1" class="form-control qty-input" value="1" min="1">
@@ -251,8 +255,8 @@ window.onload = function(){
             <div class="card h-100 text-center">
                 <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate">
                 <div class="card-body card-body-top">
-                    <h5 class="card-title">Peanut Chocolate Box</h5>
-                    <p class="card-text">$20.99</p>
+                    <h5 class="card-title set-txt-font">Peanut Chocolate Box</h5>
+                    <p class="card-text set-txt-font">$20.99</p>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="decreaseQty('qtyChoco2')">−</button>
                         <input type="number" id="qtyChoco2" class="form-control qty-input" value="1" min="1">
@@ -269,8 +273,8 @@ window.onload = function(){
             <div class="card h-100 text-center">
                 <img src="images/choco3.jpeg" class="card-img-top" alt="Chocolate">
                 <div class="card-body card-body-top">
-                    <h5 class="card-title" >Peanut Chocolate Box</h5>
-                    <p class="card-text">$20.99</p>
+                    <h5 class="card-title set-txt-font" >Peanut Chocolate Box</h5>
+                    <p class="card-text set-txt-font">$20.99</p>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="decreaseQty('qtyChoco3')">−</button>
                         <input type="number" id="qtyChoco3" class="form-control qty-input" value="1" min="1">
@@ -287,8 +291,8 @@ window.onload = function(){
             <div class="card h-100 text-center">
                 <img src="images/choco3.jpeg" class="card-img-top" alt="Chocolate">
                 <div class="card-body card-body-top">
-                    <h5 class="card-title">Peanut Chocolate Box</h5>
-                    <p class="card-text">$20.99</p>
+                    <h5 class="card-title set-txt-font">Peanut Chocolate Box</h5>
+                    <p class="card-text set-txt-font">$20.99</p>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="decreaseQty('qtyChoco4')">−</button>
                         <input type="number" id="qtyChoco4" class="form-control qty-input" value="1" min="1">
@@ -313,8 +317,8 @@ window.onload = function(){
             <div class="card h-100 text-center">
                 <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
                 <div class="card-body card-body-top">
-                    <h5 class="card-title">Spicy Seekh Kabab</h5>
-                    <p class="card-text">$29.99</p>
+                    <h5 class="card-title set-txt-font">Spicy Seekh Kabab</h5>
+                    <p class="card-text set-txt-font">$29.99</p>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="decreaseQty('qtyKabab1')">−</button>
                         <input type="number" id="qtyKabab1" class="form-control qty-input" value="1" min="1">
