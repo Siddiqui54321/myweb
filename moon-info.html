@@ -74,6 +74,21 @@
         font-size: 18px;
         font-weight: bold;
     }
+
+    /* small remove button inside cart list */
+    .cart-remove-btn {
+        border: none;
+        background: transparent;
+        color: #dc3545;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    /* product-level remove button */
+    .product-remove {
+        margin-left: 8px;
+    }
 </style>
 
 <script>
@@ -106,20 +121,51 @@ function addToCart(productName, qtyInputId, price) {
     updateCartUI();
 }
 
+/* === Remove a single product from cart by name === */
+function removeFromCart(productName) {
+    // Filter out the item(s) with this productName
+    cart = cart.filter(item => item.name !== productName);
+    updateCartUI();
+}
+
+/* === Decrease one quantity of a product (optional helper) === */
+function removeOneFromCart(productName) {
+    let idx = cart.findIndex(item => item.name === productName);
+    if (idx === -1) return;
+    if (cart[idx].qty > 1) {
+        cart[idx].qty -= 1;
+        cart[idx].total = cart[idx].qty * cart[idx].price;
+    } else {
+        // remove entirely if qty becomes 0 or 1->0
+        cart.splice(idx,1);
+    }
+    updateCartUI();
+}
+
 function updateCartUI(){
     let list = document.getElementById("cart-items");
     let totalBill = 0;
     list.innerHTML = "";
+
     cart.forEach(item=>{
         totalBill += item.price*item.qty;
-        list.innerHTML += `<li class="list-group-item d-flex justify-content-between">
-            <span>${item.name} x${item.qty}</span>
-            <strong>$${(item.price*item.qty).toFixed(2)}</strong>
+        // include a small remove button (×) to remove this item directly from cart
+        list.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>${escapeHtml(item.name)}</strong><br>
+                <small>Qty: ${item.qty} &nbsp; | &nbsp; Price: $${item.price.toFixed(2)}</small>
+            </div>
+            <div class="text-end">
+                <strong>$${(item.price*item.qty).toFixed(2)}</strong>
+                <br>
+                <button class="cart-remove-btn" title="Remove" onclick="removeFromCart('${escapeJs(item.name)}')">&times;</button>
+            </div>
         </li>`;
     });
     document.getElementById("cart-total").innerText = totalBill.toFixed(2);
 }
 
+/* === Clear full cart === */
 function clearCart(){
     cart = [];
     updateCartUI();
@@ -149,8 +195,24 @@ function showSection(sectionId){
     document.getElementById(sectionId).style.display='block';
 }
 
+/* Small helper to safely escape single quotes for inline onclick JS */
+function escapeJs(str) {
+    return String(str).replace(/'/g, "\\'");
+}
+
+/* Small helper to escape HTML for display */
+function escapeHtml(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+}
+
 window.onload = function(){
     showSection('purses-section');
+    updateCartUI();
 };
 </script>
 
@@ -165,6 +227,7 @@ window.onload = function(){
         <ul id="cart-items" class="list-group mb-2"></ul>
         <h5>Total: $<span id="cart-total">0.00</span></h5>
         <div id="cart-buttons">
+            <!-- Full cart clear still available -->
             <button class="btn btn-danger btn-sm" style="font-size: 20px;" onclick="clearCart()">Clear Cart</button>
             <button class="btn btn-success btn-sm" style="font-size: 20px;" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
         </div>
@@ -196,9 +259,10 @@ window.onload = function(){
                         </div>
 
                     </div>
-                    <!-- Add to Cart button below image -->
+                    <!-- Add to Cart and Remove (per-product) buttons -->
                     <div class="card-body text-center">
                         <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Elegant Leather Purse','qty1',49.99)">Add to Cart</button>
+                        <button class="btn btn-danger btn-sm product-remove" onclick="removeFromCart('Elegant Leather Purse')">Remove from Cart</button>
                     </div>
                 </div>
             </div>
@@ -225,6 +289,7 @@ window.onload = function(){
                     </div>
                     <div class="card-body text-center">
                         <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Chocolate Box','qtyChoco1',19.99)">Add to Cart</button>
+                        <button class="btn btn-danger btn-sm product-remove" onclick="removeFromCart('Chocolate Box')">Remove from Cart</button>
                     </div>
                 </div>
             </div>
@@ -245,6 +310,7 @@ window.onload = function(){
                     </div>
                     <div class="card-body text-center">
                         <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Peanut Chocolate Box','qtyChoco2',20.99)">Add to Cart</button>
+                        <button class="btn btn-danger btn-sm product-remove" onclick="removeFromCart('Peanut Chocolate Box')">Remove from Cart</button>
                     </div>
                 </div>
             </div>
@@ -265,6 +331,7 @@ window.onload = function(){
                     </div>
                     <div class="card-body text-center">
                         <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Plain Chocolate Box','qtyChoco3',10.99)">Add to Cart</button>
+                        <button class="btn btn-danger btn-sm product-remove" onclick="removeFromCart('Plain Chocolate Box')">Remove from Cart</button>
                     </div>
                 </div>
             </div>
@@ -285,6 +352,7 @@ window.onload = function(){
                     </div>
                     <div class="card-body text-center">
                         <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Black Chocolate Box','qtyChoco4',5.99)">Add to Cart</button>
+                        <button class="btn btn-danger btn-sm product-remove" onclick="removeFromCart('Black Chocolate Box')">Remove from Cart</button>
                     </div>
                 </div>
             </div>
@@ -311,6 +379,7 @@ window.onload = function(){
                     </div>
                     <div class="card-body text-center">
                         <button class="btn btn-primary mb-2" style="font-size: 22px;" onclick="addToCart('Spicy Seekh Kabab','qtyKabab1',29.99)">Add to Cart</button>
+                        <button class="btn btn-danger btn-sm product-remove" onclick="removeFromCart('Spicy Seekh Kabab')">Remove from Cart</button>
                     </div>
                 </div>
             </div>
