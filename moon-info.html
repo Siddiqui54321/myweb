@@ -348,6 +348,44 @@ window.onload = function(){
                 </div>
             </div>
         </div>
+<!-- Add more -->
+        <div class="col-12 col-md-6 col-lg-auto">
+            <div class="card h-100 text-center">
+                <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
+                <div class="card-body card-body-top">
+                    <h5 class="card-title set-txt-font">Shami Kabab</h5>
+                    <p class="card-text set-txt-font">$29.99</p>
+                    <div class="qty-box">
+                        <button class="qty-btn" onclick="decreaseQty('qtyKabab2')">−</button>
+                        <input type="number" id="qtyKabab2" class="form-control qty-input" value="1" min="1">
+                        <button class="qty-btn" onclick="increaseQty('qtyKabab2')">+</button>
+                    </div>
+                </div>
+                <div class="card-body text-center">
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Shami Kabab','qtyKabab2',29.99)">Add to Cart</button>
+                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Shami Kabab')">Clear</button>
+                </div>
+            </div>
+        </div>	
+
+            <div class="card h-100 text-center">
+                <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
+                <div class="card-body card-body-top">
+                    <h5 class="card-title set-txt-font">Shami Spicy Kabab</h5>
+                    <p class="card-text set-txt-font">$29.99</p>
+                    <div class="qty-box">
+                        <button class="qty-btn" onclick="decreaseQty('qtyKabab3')">−</button>
+                        <input type="number" id="qtyKabab3" class="form-control qty-input" value="1" min="1">
+                        <button class="qty-btn" onclick="increaseQty('qtyKabab3')">+</button>
+                    </div>
+                </div>
+                <div class="card-body text-center">
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Shami Spicy Kabab','qtyKabab3',29.99)">Add to Cart</button>
+                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Shami Spicy Kabab')">Clear</button>
+                </div>
+            </div>
+        </div>	
+		
     </div>
 </div>
 
