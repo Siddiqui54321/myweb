@@ -92,6 +92,23 @@
 		font-size: 30px;
 		font-weight: bold;
 	}	
+
+.cart-title {
+    font-weight: bold;
+    font-size: 24px; /* You can adjust the size */
+}
+
+/* Make cart items bold and bigger */
+.cart-items li {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Optional: increase total font size */
+.cart-total {
+    font-weight: bold;
+    font-size: 20px;
+}	
 </style>
 
 <script>
@@ -187,17 +204,17 @@ window.onload = function(){
 <div class="container mt-3">
 
 <!-- Cart Details at Top -->
-    <div id="cart-details">
-        <h1>🛒 Here Is Your Cart</h1>
-        <ul id="cart-items" class="list-group mb-2"></ul>
-        <h2>Total: $<span id="cart-total">0.00</span></h2>
-        <div id="cart-buttons">
-            <button class="btn btn-danger btn-sm btn-equal-head" onclick="clearCart()">Clear Cart</button>
-            <button class="btn btn-success btn-sm btn-equal-head" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
-        </div>
+<div id="cart-details">
+    <h2 class="cart-title">🛒 Here Is Your Cart</h2>
+    <ul id="cart-items" class="cart-items list-group mb-2"></ul>
+    <h3 class="cart-total">Total: $<span id="cart-total">0.00</span></h3>
+    <div id="cart-buttons">
+        <button class="btn btn-danger btn-sm btn-equal-head" onclick="clearCart()">Clear Cart</button>
+        <button class="btn btn-success btn-sm btn-equal-head" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
     </div>
+</div>	
 
-<h1 class="text-center mb-4">SHOP ON LINE</h1>
+<h1 class="text-center mb-4">SHOP-ON-LINE</h1>
 
 <div class="text-center mb-4">
     <button class="btn btn-primary mx-2 btn-equal-head" onclick="showSection('chocolates-section')">Chocolates</button>
