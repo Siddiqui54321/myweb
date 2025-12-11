@@ -252,11 +252,16 @@ function showDetail(productName) {
                     border: none;
                     border-radius: 6px;
                 }
+
+.cart-title1 {
+    font-weight: bold;
+    font-size: 36px; /* You can adjust the size */
+}				
             </style>
         </head>
         <body>
-            <h1>${productName}</h1>
-            <p>${details}</p>
+            <h1 class="cart-title1">${productName}</h1>
+            <p class="cart-title1">${details}</p>
 
             <button class="close-btn" onclick="window.close()">Close</button>
         </body>
@@ -288,7 +293,7 @@ window.onload = function(){
     </div>
 </div>	
 
-<h1 class="text-center mb-4">SHOP LINE</h1>
+<h1 class="text-center mb-4">SHOP ON LINE</h1>
 
 <div class="text-center mb-4">
     <button class="btn btn-primary mx-2 btn-equal-head" onclick="showSection('chocolates-section')">Chocolates</button>
