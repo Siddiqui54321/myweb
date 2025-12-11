@@ -193,22 +193,24 @@ function showSection(sectionId){
     document.getElementById(sectionId).style.display='block';
 }
 
-function showDetail(productName) {
-    let details = "";
-
-    if(productName === "Elegant Leather Purse"){
-        details = "This purse is leather type and durable with one year guarantee. No return after sale.";
-    }
-    else if(productName === "Chocolate Box"){
-        details = "Delicious assorted chocolates. Best before 6 months. Store in cool place.";
-    }
-    else if(productName === "Spicy Seekh Kabab"){
-        details = "Spicy and flavorful kababs made from fresh ingredients. Serve hot. Consume within 2 days.";
-    }
+// Object holding all product details
+const productDetails = {
+    "Elegant Leather Purse": "This purse is leather type and durable with one year guarantee. No return after sale.",
+    "Chocolate Box": "Delicious assorted chocolates. Best before 6 months. Store in cool place.",
+    "Peanut Chocolate Box": "Tasty peanut chocolates, store in cool & dry place. Consume within 6 months.",
+    "ABC Chocolate Box": "Assorted chocolates for gifting. Keep away from heat.",
+    "XYZ Chocolate Box": "Premium chocolate selection. Best before 6 months.",
+    "Spicy Seekh Kabab": "Spicy and flavorful kababs made from fresh ingredients. Serve hot. Consume within 2 days.",
+    "Shami Kabab": "Soft and juicy kababs made with traditional spices. Serve hot.",
+    "Shami Spicy Kabab": "Spicy Shami kababs, perfect for BBQ lovers. Serve hot."
     // Add more products here as needed
+};
 
-    // Open new window with details
-    let detailWindow = window.open("", "_blank", "width=500,height=300");
+// Function to show details in a popup window
+function showDetail(productName) {
+    const details = productDetails[productName] || "No details available.";
+
+    const detailWindow = window.open("", "_blank", "width=500,height=350");
     detailWindow.document.write(`
         <html>
         <head>
@@ -216,13 +218,16 @@ function showDetail(productName) {
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         </head>
         <body class="p-4">
-            <h1><u><center>${productName}</center></u></h1>
-            <p><h3><justify>${details}</justify></h3></p>
-            <button class="btn btn-secondary btn-equal-head" onclick="window.close()">Close</button>
+            <h1 class="text-center"><u>${productName}</u></h1>
+            <p style="text-align: justify; font-size: 18px;">${details}</p>
+            <div class="text-center mt-4">
+                <button class="btn btn-secondary btn-equal-head" onclick="window.close()">Close</button>
+            </div>
         </body>
         </html>
     `);
 }
+
 window.onload = function(){
     showSection('purses-section');
 };
@@ -244,7 +249,7 @@ window.onload = function(){
     </div>
 </div>	
 
-<h1 class="text-center mb-4">SHOP-ON-LINE</h1>
+<h1 class="text-center mb-4">SHOP ON LINE</h1>
 
 <div class="text-center mb-4">
     <button class="btn btn-primary mx-2 btn-equal-head" onclick="showSection('chocolates-section')">Chocolates</button>
