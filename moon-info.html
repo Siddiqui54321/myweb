@@ -210,7 +210,7 @@ const productDetails = {
 function showDetail(productName) {
     const details = productDetails[productName] || "No details available.";
 
-    let detailWindow = window.open("", "_blank", ); /* "width=1000,height=450"); */
+    let detailWindow = window.open("", "_blank", "width=800,height=450"); 
 
     detailWindow.document.open();
     detailWindow.document.write(`
@@ -263,9 +263,7 @@ function showDetail(productName) {
         <body>
             <h1 class="cart-title1">${productName}</h1>
             <p class="cart-title1">${details}</p>
-
-            /* <button class="close-btn" onclick="window.close()">Close</button> */
-            <button onclick="window.close()">Close</button>			
+            <button class="close-btn" onclick="window.close()">Close</button>             
         </body>
         </html>
     `);
