@@ -210,7 +210,10 @@ const productDetails = {
 function showDetail(productName) {
     const details = productDetails[productName] || "No details available.";
 
-    const detailWindow = window.open("", "_blank", "width=500,height=400");
+    // Use a timestamp to create a unique window name every time
+    const windowName = "detailWindow_" + new Date().getTime();
+    const detailWindow = window.open("", windowName, "width=500,height=400");
+
     detailWindow.document.write(`
         <html>
         <head>
@@ -219,7 +222,7 @@ function showDetail(productName) {
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
             <style>
                 body { padding: 20px; font-size: 1.2rem; }
-                h1 { font-size: 2rem; }
+                h1 { font-size: 2rem; text-align: center; }
                 p { font-size: 1.2rem; text-align: justify; }
                 .btn-close-popup {
                     font-size: 1.5rem;
@@ -234,7 +237,7 @@ function showDetail(productName) {
             </style>
         </head>
         <body>
-            <h1 class="text-center"><u>${productName}</u></h1>
+            <h1><u>${productName}</u></h1>
             <p>${details}</p>
             <div class="text-center mt-4">
                 <button class="btn btn-secondary btn-close-popup" onclick="window.close()">Close</button>
@@ -242,6 +245,9 @@ function showDetail(productName) {
         </body>
         </html>
     `);
+
+    // Focus on the new window
+    detailWindow.focus();
 }
 window.onload = function(){
     showSection('purses-section');
