@@ -193,6 +193,36 @@ function showSection(sectionId){
     document.getElementById(sectionId).style.display='block';
 }
 
+function showDetail(productName) {
+    let details = "";
+
+    if(productName === "Elegant Leather Purse"){
+        details = "This purse is leather type and durable with one year guarantee. No return after sale.";
+    }
+    else if(productName === "Chocolate Box"){
+        details = "Delicious assorted chocolates. Best before 6 months. Store in cool place.";
+    }
+    else if(productName === "Spicy Seekh Kabab"){
+        details = "Spicy and flavorful kababs made from fresh ingredients. Serve hot. Consume within 2 days.";
+    }
+    // Add more products here as needed
+
+    // Open new window with details
+    let detailWindow = window.open("", "_blank", "width=500,height=300");
+    detailWindow.document.write(`
+        <html>
+        <head>
+            <title>Details - ${productName}</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        </head>
+        <body class="p-4">
+            <h4>${productName}</h4>
+            <p>${details}</p>
+            <button class="btn btn-secondary" onclick="window.close()">Close</button>
+        </body>
+        </html>
+    `);
+}
 window.onload = function(){
     showSection('purses-section');
 };
@@ -240,6 +270,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Elegant Leather Purse','qty1',49.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Elegant Leather Purse')">Clear</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Elegant Leather Purse')">Detail</button>
                 </div>
             </div>
         </div>
@@ -265,6 +296,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Chocolate Box','qtyChoco1',19.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Chocolate Box')">Clear</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Chocolate Box')">Detail</button>
                 </div>
             </div>
         </div>
@@ -283,6 +315,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Peanut Chocolate Box','qtyChoco2',20.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Peanut Chocolate Box')">Clear</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Peanut Chocolate Box')">Detail</button>
                 </div>
             </div>
         </div>
@@ -301,6 +334,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('ABC Chocolate Box','qtyChoco3',20.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('ABC Chocolate Box')">Clear</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('ABC Chocolate Box')">Detail</button>					
                 </div>
             </div>
         </div>
@@ -319,6 +353,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('XYZ Chocolate Box','qtyChoco4',20.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('XYZ Chocolate Box')">Clear</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('XYZ Chocolate Box')">Detail</button>					
                 </div>
             </div>
         </div>		
@@ -345,6 +380,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Spicy Seekh Kabab','qtyKabab1',29.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Spicy Seekh Kabab')">Clear</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Spicy Seekh Kabab')">Detail</button>					
                 </div>
             </div>
         </div>
@@ -364,6 +400,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Shami Kabab','qtyKabab2',29.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Shami Kabab')">Clear</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Shami Kabab')">Detail</button>					
                 </div>
             </div>
         </div>	
@@ -382,6 +419,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Shami Spicy Kabab','qtyKabab3',29.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Shami Spicy Kabab')">Clear</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Shami Spicy Kabab')">Detail</button>						
                 </div>
             </div>
         </div>	
