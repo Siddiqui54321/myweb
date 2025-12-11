@@ -210,35 +210,49 @@ const productDetails = {
 function showDetail(productName) {
     const details = productDetails[productName] || "No details available.";
 
-    // Use a timestamp to create a unique window name every time
-    const windowName = "detailWindow_" + new Date().getTime();
-    const detailWindow = window.open("", windowName, "width=500,height=400");
+    // Always create a new clean popup
+    const detailWindow = window.open("", "", "width=550,height=450");
 
+    detailWindow.document.open();
     detailWindow.document.write(`
+        <!DOCTYPE html>
         <html>
         <head>
             <title>Details - ${productName}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
             <style>
-                body { padding: 20px; font-size: 1.2rem; }
-                h1 { font-size: 2rem; text-align: center; }
-                p { font-size: 1.2rem; text-align: justify; }
-                .btn-close-popup {
-                    font-size: 1.5rem;
-                    padding: 10px 25px;
+                html, body {
+                    margin: 0;
+                    padding: 20px;
+                    font-family: Arial, sans-serif;
+                    background: #fff;
                 }
+                body { font-size: 1.4rem; }
+                h1 { font-size: 2.2rem; text-align: center; }
+                p { font-size: 1.4rem; text-align: justify; }
+
+                .btn-close-popup {
+                    font-size: 1.6rem;
+                    padding: 12px 28px;
+                }
+
                 @media (max-width: 768px) {
-                    body { font-size: 1.5rem; }
-                    h1 { font-size: 2.5rem; }
-                    p { font-size: 1.5rem; }
-                    .btn-close-popup { font-size: 1.8rem; padding: 15px 30px; }
+                    body { font-size: 1.8rem; }
+                    h1 { font-size: 2.6rem; }
+                    p { font-size: 1.8rem; }
+                    .btn-close-popup {
+                        font-size: 2rem;
+                        padding: 18px 35px;
+                    }
                 }
             </style>
         </head>
         <body>
             <h1><u>${productName}</u></h1>
             <p>${details}</p>
+
             <div class="text-center mt-4">
                 <button class="btn btn-secondary btn-close-popup" onclick="window.close()">Close</button>
             </div>
@@ -246,9 +260,9 @@ function showDetail(productName) {
         </html>
     `);
 
-    // Focus on the new window
+    detailWindow.document.close();   // important!
     detailWindow.focus();
-}
+}	
 window.onload = function(){
     showSection('purses-section');
 };
@@ -270,7 +284,7 @@ window.onload = function(){
     </div>
 </div>	
 
-<h1 class="text-center mb-4">SHOP ON LINE</h1>
+<h1 class="text-center mb-4">SHOPING ON LINE</h1>
 
 <div class="text-center mb-4">
     <button class="btn btn-primary mx-2 btn-equal-head" onclick="showSection('chocolates-section')">Chocolates</button>
