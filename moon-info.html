@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Shop on Line</title>
-<link href="bootstrap/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
 <!-- RESTORE BOOTSTRAP HERE -->
 <style>
     body {
@@ -210,7 +210,7 @@ const productDetails = {
 function showDetail(productName) {
     const details = productDetails[productName] || "No details available.";
 
-    let detailWindow = window.open("", "_blank_" + Date.now(), "width=550,height=450");
+    let detailWindow = window.open("", "_blank", "width=550,height=450");
 
     detailWindow.document.open();
     detailWindow.document.write(`
@@ -219,6 +219,9 @@ function showDetail(productName) {
         <head>
             <title>${productName}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1">
+
+            <!-- FIX: Bootstrap added -->
+            <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
 
             <style>
                 body {
@@ -262,6 +265,7 @@ function showDetail(productName) {
 
     detailWindow.document.close();
 }
+
 	
 window.onload = function(){
     showSection('purses-section');
