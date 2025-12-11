@@ -210,7 +210,7 @@ const productDetails = {
 function showDetail(productName) {
     const details = productDetails[productName] || "No details available.";
 
-    let detailWindow = window.open("", "_blank", "width=1500,height=450");
+    let detailWindow = window.open("", "_blank", "width=1000,height=450");
 
     detailWindow.document.open();
     detailWindow.document.write(`
@@ -294,7 +294,7 @@ window.onload = function(){
     </div>
 </div>	
 
-<h1 class="text-center mb-4">SHOP ON LINE</h1>
+<h1 class="text-center mb-4">SHOP-ON-LINE</h1>
 
 <div class="text-center mb-4">
     <button class="btn btn-primary mx-2 btn-equal-head" onclick="showSection('chocolates-section')">Chocolates</button>
