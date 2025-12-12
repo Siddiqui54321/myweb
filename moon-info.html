@@ -3,15 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Shop on Line</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
-
+<!-- RESTORE BOOTSTRAP HERE -->
 <style>
-    /* ===== Layout & General ===== */
-    body { padding-right: 0px; }
-    @media (max-width: 768px) { body { padding-right: 0; } }
+    body {
+        padding-right: 0px;
+    }
+    @media (max-width: 768px) {
+        body { padding-right: 0; }
+    }
 
-    .card-img-top { height: 180px; object-fit: cover; width: 100%; }
+    .card-img-top {
+        height: 180px;
+        object-fit: cover;
+        width: 100%;
+    }
 
     #cart-details {
         background: #f8f9fa;
@@ -21,119 +27,171 @@
         margin-bottom: 20px;
     }
 
-    #cart-buttons { display: flex; justify-content: left; gap: 15px; margin-top: 10px; }
-    .card-body-top { text-align: center; }
+    #cart-buttons {
+        display: flex;
+        justify-content: left;
+        gap: 15px;
+        margin-top: 10px;
+    }
 
-    /* ===== Quantity Button Design (BIGGER — All Screens) ===== */
+    .card-body-top {
+        text-align: center;
+    }
+
+    /* ===== Quantity Button Design ===== */
     .qty-box {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 18px;
-        margin-bottom: 15px;
+        gap: 12px;
+        margin-bottom: 10px;
     }
 
     .qty-btn {
-        width: 60px;
-        height: 60px;
+        width: 38px;
+        height: 38px;
         border-radius: 50%;
         border: none;
         background-color: #0d6efd;
         color: white;
-        font-size: 38px;
+        font-size: 22px;
         font-weight: bold;
         display: flex;
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        transition: 0.15s;
+        transition: 0.2s;
     }
 
-    .qty-btn:active { transform: scale(0.98); }
-    .qty-btn:hover { background-color: #0b5ed7; transform: scale(1.05); }
+    .qty-btn:hover {
+        background-color: #0b5ed7;
+        transform: scale(1.1);
+    }
 
     .qty-input {
-        width: 110px;
-        height: 60px;
-        font-size: 34px;
-        font-weight: bold;
+        width: 70px;
         text-align: center;
-        border-radius: 8px;
+        font-size: 18px;
+        font-weight: bold;
     }
 
-    .btn-equal { font-size: 30px; font-weight: bold; width: 130px; height: 60px; }
-    .btn-equal-head { font-size: 30px; font-weight: bold; width: 180px; height: 60px; }
+	.btn-equal {
+		font-size: 30px;
+		font-weight: bold;
+		width: 130px;
+		height: 60px;		
+	}
+	
+	.btn-equal-head {
+		font-size: 30px;
+		font-weight: bold;
+		width: 180px;
+		height: 60px;		
+	}	
+	.set-txt-font {
+		font-size: 30px;
+		font-weight: bold;
+	}	
 
-    .set-txt-font { font-size: 30px; font-weight: bold; }
+.cart-title {
+    font-weight: bold;
+    font-size: 36px; /* You can adjust the size */
+}
 
-    .cart-title { font-weight: bold; font-size: 36px; }
-    .cart-items li { font-weight: bold; font-size: 20px; } /* smaller than before for fit */
-    .cart-total { font-weight: bold; font-size: 24px; }
+/* Make cart items bold and bigger */
+.cart-items li {
+    font-weight: bold;
+    font-size: 36px;
+}
 
-    /* Mobile boost */
-    @media (max-width: 480px) {
-        .qty-btn { width: 70px !important; height: 70px !important; font-size: 45px !important; }
-        .qty-input { width: 130px !important; height: 70px !important; font-size: 40px !important; }
-        .qty-box { gap: 22px; }
-        .set-txt-font { font-size: 22px; } /* scale down product titles on tiny screens */
+/* Optional: increase total font size */
+.cart-total {
+    font-weight: bold;
+    font-size: 36px;
+}	
+
+/* ===== MOBILE FIX FOR QTY BUTTONS ===== */
+@media (max-width: 480px) {
+
+    .qty-box {
+        gap: 20px;               /* increase space between buttons and number */
+        margin-bottom: 15px;
     }
 
-    /* Small visual tweak for cart list */
-    #cart-items .list-group-item { font-size: 18px; padding: .5rem 1rem; }
-    .detail-btn { min-width: 100px; } /* detail button width */
+    .qty-btn {
+        width: 55px !important;  /* bigger button */
+        height: 55px !important;
+        font-size: 32px !important; /* bigger + and - signs */
+    }
+
+    .qty-input {
+        width: 90px !important;  /* bigger number box */
+        font-size: 28px !important;
+        height: 55px !important;
+    }
+}
+
+	
 </style>
 
 <script>
-/* ====== Cart logic ====== */
 let cart = [];
 
-/* Helper: find item index by name */
-function findCartIndex(name) {
-    return cart.findIndex(it => it.name === name);
+/* === Increase & Decrease Qty === */
+function increaseQty(id) {
+    let input = document.getElementById(id);
+    input.value = parseInt(input.value || 1) + 1;
 }
 
-/* Called after any change to cart to refresh UI */
+function decreaseQty(id) {
+    let input = document.getElementById(id);
+    let value = parseInt(input.value || 1);
+    if (value > 1) input.value = value - 1;
+}
+
+/* === Add to Cart Function === */
+function addToCart(productName, qtyInputId, price) {
+    let qty = parseInt(document.getElementById(qtyInputId).value);
+    if (!qty || qty <= 0) { alert("Enter valid quantity"); return; }
+
+    let existing = cart.find(item => item.name === productName);
+    if(existing){
+        existing.qty += qty;
+        existing.total = existing.qty * existing.price;
+    } else {
+        cart.push({name: productName, qty: qty, price: price, total: price*qty});
+    }
+    updateCartUI();
+}
+
+/* === Remove individual item === */
+function removeFromCart(productName){
+    cart = cart.filter(item => item.name !== productName);
+    updateCartUI();
+}
+
 function updateCartUI(){
     let list = document.getElementById("cart-items");
     let totalBill = 0;
     list.innerHTML = "";
-
-    if(cart.length === 0) {
-        list.innerHTML = '<li class="list-group-item">Cart is empty</li>';
-    } else {
-        cart.forEach(item=>{
-            totalBill += item.price * item.qty;
-            list.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
-                <div><strong>${item.name}</strong> &nbsp; x${item.qty}</div>
-                <div>
-                    <strong>$${(item.price*item.qty).toFixed(2)}</strong>
-                    <button class="btn btn-sm btn-danger ms-2" onclick="removeFromCart('${escapeHtml(item.name)}')">X</button>
-                </div>
-            </li>`;
-        });
-    }
-
+    cart.forEach(item=>{
+        totalBill += item.price*item.qty;
+        list.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>${item.name} x${item.qty}</span>
+            <div>
+                <strong>$${(item.price*item.qty).toFixed(2)}</strong>
+                <button class="btn btn-sm btn-danger ms-2" onclick="removeFromCart('${item.name}')">X</button>
+            </div>
+        </li>`;
+    });
     document.getElementById("cart-total").innerText = totalBill.toFixed(2);
 }
 
-/* Remove item by name */
-function removeFromCart(productName){
-    cart = cart.filter(i => i.name !== productName);
-    // also set input back to 0 if it exists
-    let input = document.querySelector(`[data-product="${cssEscape(productName)}"]`);
-    if(input) input.value = 0;
-    updateCartUI();
-}
-
-/* Clear cart */
 function clearCart(){
     cart = [];
-    // reset all qty inputs to 0
-    document.querySelectorAll('.qty-input').forEach(inp => inp.value = 0);
     updateCartUI();
 }
 
-/* Order via WhatsApp */
 function orderViaWhatsAppCart(){
     if(cart.length==0){ alert("Cart is empty"); return; }
     let phone="923028345376";
@@ -146,76 +204,37 @@ function orderViaWhatsAppCart(){
     });
 
     msg+=`\nTotal Amount: $${total.toFixed(2)}\n\nKindly confirm order via JazzCash or EasyPaisa. Delivery in 2 days.`;
+
     let url = "https://wa.me/"+phone+"?text="+encodeURIComponent(msg);
     window.open(url,'_blank');
 }
 
-/* ====== Quantity change handlers (auto add/remove) ====== */
-
-/* increaseQty: increments the readonly input and updates cart */
-function increaseQty(inputId, productName, price) {
-    const input = document.getElementById(inputId);
-    let current = parseInt(input.value || 0);
-    current = current + 1;
-    input.value = current;
-    syncCartWithInput(productName, inputId, price);
+function showSection(sectionId){
+    ['purses-section','chocolates-section','kabab-section'].forEach(id=>{
+        document.getElementById(id).style.display='none';
+    });
+    document.getElementById(sectionId).style.display='block';
 }
 
-/* decreaseQty: decrements (min 0). If reaches 0, item removed from cart */
-function decreaseQty(inputId, productName, price) {
-    const input = document.getElementById(inputId);
-    let current = parseInt(input.value || 0);
-    if (current <= 0) return;
-    current = current - 1;
-    input.value = current;
-    syncCartWithInput(productName, inputId, price);
-}
-
-/* syncCartWithInput: read qty from input and update cart accordingly */
-function syncCartWithInput(productName, inputId, price) {
-    const qty = parseInt(document.getElementById(inputId).value || 0);
-
-    const idx = findCartIndex(productName);
-    if (qty <= 0) {
-        // remove if exists
-        if (idx !== -1) {
-            cart.splice(idx, 1);
-        }
-    } else {
-        if (idx !== -1) {
-            cart[idx].qty = qty;
-            cart[idx].total = cart[idx].price * qty;
-        } else {
-            cart.push({ name: productName, qty: qty, price: price, total: price*qty });
-        }
-    }
-    updateCartUI();
-}
-
-/* Escape helpers to avoid broken markup for names with quotes */
-function escapeHtml(text) {
-  return text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-}
-/* cssEscape for data selectors: replace problematic chars with underscore */
-function cssEscape(text) {
-  return text.replace(/[^a-zA-Z0-9\-_]/g, '_');
-}
-
-/* Show product details in new window */
+// Object holding all product details
 const productDetails = {
     "Elegant Leather Purse": "This purse is leather type and durable with one year guarantee. No return after sale.",
     "Chocolate Box": "Delicious assorted chocolates. Best before 6 months. Store in cool place.",
     "Peanut Chocolate Box": "Tasty peanut chocolates, store in cool & dry place. Consume within 6 months.",
     "ABC Chocolate Box": "Assorted chocolates for gifting. Keep away from heat.",
     "XYZ Chocolate Box": "Premium chocolate selection. Best before 6 months.",
-    "Spicy Seekh Kabab": "Spicy and flavorful kababs made from fresh ingredients. Serve hot.",
+    "Spicy Seekh Kabab": "Spicy and flavorful kababs made from fresh ingredients. Serve hot. Consume within 2 days.",
     "Shami Kabab": "Soft and juicy kababs made with traditional spices. Serve hot.",
     "Shami Spicy Kabab": "Spicy Shami kababs, perfect for BBQ lovers. Serve hot."
+    // Add more products here as needed
 };
 
+// Function to show details in a popup window
 function showDetail(productName) {
     const details = productDetails[productName] || "No details available.";
-    let detailWindow = window.open("", "_blank", "width=800,height=450");
+
+    let detailWindow = window.open("", "_blank", "width=800,height=450"); 
+
     detailWindow.document.open();
     detailWindow.document.write(`
         <!DOCTYPE html>
@@ -223,42 +242,67 @@ function showDetail(productName) {
         <head>
             <title>${productName}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1">
+
+            <!-- FIX: Bootstrap added -->
             <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+
             <style>
-                body { margin: 0; padding: 25px; font-size: 18px; line-height: 1.6; font-family: Arial, sans-serif; }
-                h1 { text-align: center; font-size: 28px; margin-bottom: 10px; text-decoration: underline; }
-                p { font-size: 18px; text-align: justify; }
-                .close-btn { display:block; width:100%; margin-top:20px; padding:12px; font-size:20px; background:#6c757d;color:white;border:none;border-radius:6px; }
+                body {
+                    margin: 0;
+                    padding: 25px;
+                    font-family: Arial, sans-serif;
+                    font-size: 22px;
+                    line-height: 1.6;
+                }
+                h1 {
+                    text-align: center;
+                    font-size: 28px;
+                    margin-bottom: 20px;
+                    text-decoration: underline;
+                }
+                p {
+                    font-size: 22px;
+                    text-align: justify;
+                }
+                .close-btn {
+                    display: block;
+                    width: 100%;
+                    margin-top: 30px;
+                    padding: 15px;
+                    font-size: 42px;
+                    background: gray;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                }
+
+				.cart-title1 {
+    				font-weight: bold;
+    				font-size: 56px; /* You can adjust the size */
+					text-align: center;
+				}				
             </style>
         </head>
         <body>
-            <h1>${productName}</h1>
-            <p>${details}</p>
-            <button class="close-btn" onclick="window.close()">Close</button>
+            <h1 class="cart-title1">${productName}</h1>
+            <p class="cart-title1">${details}</p>
+            <button class="close-btn" onclick="window.close()">Close</button>             
         </body>
         </html>
     `);
+
     detailWindow.document.close();
 }
 
+	
 window.onload = function(){
-    // ensure sections default
     showSection('purses-section');
-    updateCartUI();
 };
-
-/* Section switching */
-function showSection(sectionId){
-    ['purses-section','chocolates-section','kabab-section'].forEach(id=>{
-        const el = document.getElementById(id);
-        if(el) el.style.display = 'none';
-    });
-    const target = document.getElementById(sectionId);
-    if(target) target.style.display = 'block';
-}
 </script>
+
 </head>
 <body>
+
 <div class="container mt-3">
 
 <!-- Cart Details at Top -->
@@ -270,9 +314,9 @@ function showSection(sectionId){
         <button class="btn btn-danger btn-sm btn-equal-head" onclick="clearCart()">Clear Cart</button>
         <button class="btn btn-success btn-sm btn-equal-head" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
     </div>
-</div>
+</div>	
 
-<h1 class="text-center mb-4">SHOPING ON LINE</h1>
+<h1 class="text-center mb-4">SHOPING-ON-LINE</h1>
 
 <div class="text-center mb-4">
     <button class="btn btn-primary mx-2 btn-equal-head" onclick="showSection('chocolates-section')">Chocolates</button>
@@ -283,189 +327,175 @@ function showSection(sectionId){
 <!-- Purses Section -->
 <div id="purses-section" style="display:none;">
     <div class="row g-4 mb-4">
-        <!-- Elegant Leather Purse -->
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-auto">
             <div class="card h-100 text-center">
                 <img src="images/purse1.jpg" class="card-img-top" alt="Purse">
                 <div class="card-body card-body-top">
                     <h5 class="card-title set-txt-font">Elegant Leather Purse</h5>
                     <p class="card-text set-txt-font">$49.99</p>
-
                     <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qty1','Elegant Leather Purse',49.99)">−</button>
-
-                        <!-- default value 0, readOnly input, data-product attr for lookup -->
-                        <input type="number" id="qty1" class="form-control qty-input" value="0" min="0" readonly data-product="Elegant_Leather_Purse">
-
-                        <button class="qty-btn" onclick="increaseQty('qty1','Elegant Leather Purse',49.99)">+</button>
+                        <button class="qty-btn" onclick="decreaseQty('qty1')">−</button>
+                        <input type="number" id="qty1" class="form-control qty-input" value="1" min="1">
+                        <button class="qty-btn" onclick="increaseQty('qty1')">+</button>
                     </div>
                 </div>
-
                 <div class="card-body text-center">
-                    <!-- Add to Cart removed as requested -->
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Elegant Leather Purse','qty1',49.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Elegant Leather Purse')">Clear</button>
-                    <button class="btn btn-info mb-2 btn-equal detail-btn" onclick="showDetail('Elegant Leather Purse')">Detail</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Elegant Leather Purse')">Detail</button>
                 </div>
             </div>
         </div>
-
-        <!-- Add more purse items if needed (copy above block, change ids & names & prices) -->
+        <!-- Add more purses here following same pattern -->
     </div>
 </div>
+
 <!-- Chocolates Section -->
 <div id="chocolates-section" style="display:none;">
     <div class="row g-4 mb-4">
-        <!-- Chocolate Box -->
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-auto">
             <div class="card h-100 text-center">
                 <img src="images/choco1.jpeg" class="card-img-top" alt="Chocolate">
                 <div class="card-body card-body-top">
                     <h5 class="card-title set-txt-font">Chocolate Box</h5>
                     <p class="card-text set-txt-font">$19.99</p>
-
                     <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyChoco1','Chocolate Box',19.99)">−</button>
-                        <input type="number" id="qtyChoco1" class="form-control qty-input" value="0" min="0" readonly data-product="Chocolate_Box">
-                        <button class="qty-btn" onclick="increaseQty('qtyChoco1','Chocolate Box',19.99)">+</button>
+                        <button class="qty-btn" onclick="decreaseQty('qtyChoco1')">−</button>
+                        <input type="number" id="qtyChoco1" class="form-control qty-input" value="1" min="1">
+                        <button class="qty-btn" onclick="increaseQty('qtyChoco1')">+</button>
                     </div>
                 </div>
                 <div class="card-body text-center">
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Chocolate Box','qtyChoco1',19.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Chocolate Box')">Clear</button>
-                    <button class="btn btn-info mb-2 btn-equal detail-btn" onclick="showDetail('Chocolate Box')">Detail</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Chocolate Box')">Detail</button>
                 </div>
             </div>
         </div>
-
-        <!-- Peanut Chocolate Box -->
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-auto">
             <div class="card h-100 text-center">
-                <img src="images/choco2.jpeg" class="card-img-top" alt="Peanut Chocolate Box">
+                <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate">
                 <div class="card-body card-body-top">
                     <h5 class="card-title set-txt-font">Peanut Chocolate Box</h5>
                     <p class="card-text set-txt-font">$20.99</p>
-
                     <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyChoco2','Peanut Chocolate Box',20.99)">−</button>
-                        <input type="number" id="qtyChoco2" class="form-control qty-input" value="0" min="0" readonly data-product="Peanut_Chocolate_Box">
-                        <button class="qty-btn" onclick="increaseQty('qtyChoco2','Peanut Chocolate Box',20.99)">+</button>
+                        <button class="qty-btn" onclick="decreaseQty('qtyChoco2')">−</button>
+                        <input type="number" id="qtyChoco2" class="form-control qty-input" value="1" min="1">
+                        <button class="qty-btn" onclick="increaseQty('qtyChoco2')">+</button>
                     </div>
                 </div>
                 <div class="card-body text-center">
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Peanut Chocolate Box','qtyChoco2',20.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Peanut Chocolate Box')">Clear</button>
-                    <button class="btn btn-info mb-2 btn-equal detail-btn" onclick="showDetail('Peanut Chocolate Box')">Detail</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Peanut Chocolate Box')">Detail</button>
                 </div>
             </div>
         </div>
-
-        <!-- ABC Chocolate Box -->
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-auto">
             <div class="card h-100 text-center">
-                <img src="images/choco3.jpeg" class="card-img-top" alt="ABC Chocolate Box">
+                <img src="images/choco3.jpeg" class="card-img-top" alt="Chocolate">
                 <div class="card-body card-body-top">
-                    <h5 class="card-title set-txt-font">ABC Chocolate Box</h5>
+                    <h5 class="card-title set-txt-font" >ABC Chocolate Box</h5>
                     <p class="card-text set-txt-font">$20.99</p>
-
                     <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyChoco3','ABC Chocolate Box',20.99)">−</button>
-                        <input type="number" id="qtyChoco3" class="form-control qty-input" value="0" min="0" readonly data-product="ABC_Chocolate_Box">
-                        <button class="qty-btn" onclick="increaseQty('qtyChoco3','ABC Chocolate Box',20.99)">+</button>
+                        <button class="qty-btn" onclick="decreaseQty('qtyChoco3')">−</button>
+                        <input type="number" id="qtyChoco3" class="form-control qty-input" value="1" min="1">
+                        <button class="qty-btn" onclick="increaseQty('qtyChoco3')">+</button>
                     </div>
                 </div>
                 <div class="card-body text-center">
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('ABC Chocolate Box','qtyChoco3',20.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('ABC Chocolate Box')">Clear</button>
-                    <button class="btn btn-info mb-2 btn-equal detail-btn" onclick="showDetail('ABC Chocolate Box')">Detail</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('ABC Chocolate Box')">Detail</button>					
                 </div>
             </div>
         </div>
-
-        <!-- XYZ Chocolate Box -->
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-auto">
             <div class="card h-100 text-center">
-                <img src="images/choco3.jpeg" class="card-img-top" alt="XYZ Chocolate Box">
+                <img src="images/choco3.jpeg" class="card-img-top" alt="Chocolate">
                 <div class="card-body card-body-top">
                     <h5 class="card-title set-txt-font">XYZ Chocolate Box</h5>
                     <p class="card-text set-txt-font">$20.99</p>
-
                     <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyChoco4','XYZ Chocolate Box',20.99)">−</button>
-                        <input type="number" id="qtyChoco4" class="form-control qty-input" value="0" min="0" readonly data-product="XYZ_Chocolate_Box">
-                        <button class="qty-btn" onclick="increaseQty('qtyChoco4','XYZ Chocolate Box',20.99)">+</button>
+                        <button class="qty-btn" onclick="decreaseQty('qtyChoco4')">−</button>
+                        <input type="number" id="qtyChoco4" class="form-control qty-input" value="1" min="1">
+                        <button class="qty-btn" onclick="increaseQty('qtyChoco4')">+</button>
                     </div>
                 </div>
                 <div class="card-body text-center">
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('XYZ Chocolate Box','qtyChoco4',20.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('XYZ Chocolate Box')">Clear</button>
-                    <button class="btn btn-info mb-2 btn-equal detail-btn" onclick="showDetail('XYZ Chocolate Box')">Detail</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('XYZ Chocolate Box')">Detail</button>					
                 </div>
             </div>
-        </div>
+        </div>		
+
+        <!-- Add more chocolates similarly, each in its own <div class="col"> -->
     </div>
 </div>
 
 <!-- Kabab Section -->
 <div id="kabab-section" style="display:none;">
     <div class="row g-4 mb-4">
-        <!-- Spicy Seekh Kabab -->
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-auto">
             <div class="card h-100 text-center">
-                <img src="images/kabab1.jpeg" class="card-img-top" alt="Spicy Seekh Kabab">
+                <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
                 <div class="card-body card-body-top">
                     <h5 class="card-title set-txt-font">Spicy Seekh Kabab</h5>
                     <p class="card-text set-txt-font">$29.99</p>
-
                     <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyKabab1','Spicy Seekh Kabab',29.99)">−</button>
-                        <input type="number" id="qtyKabab1" class="form-control qty-input" value="0" min="0" readonly data-product="Spicy_Seekh_Kabab">
-                        <button class="qty-btn" onclick="increaseQty('qtyKabab1','Spicy Seekh Kabab',29.99)">+</button>
+                        <button class="qty-btn" onclick="decreaseQty('qtyKabab1')">−</button>
+                        <input type="number" id="qtyKabab1" class="form-control qty-input" value="1" min="1">
+                        <button class="qty-btn" onclick="increaseQty('qtyKabab1')">+</button>
                     </div>
                 </div>
                 <div class="card-body text-center">
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Spicy Seekh Kabab','qtyKabab1',29.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Spicy Seekh Kabab')">Clear</button>
-                    <button class="btn btn-info mb-2 btn-equal detail-btn" onclick="showDetail('Spicy Seekh Kabab')">Detail</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Spicy Seekh Kabab')">Detail</button>					
                 </div>
             </div>
         </div>
-
-        <!-- Shami Kabab -->
-        <div class="col-12 col-md-6 col-lg-4">
+<!-- Add more -->
+        <div class="col-12 col-md-6 col-lg-auto">
             <div class="card h-100 text-center">
-                <img src="images/kabab1.jpeg" class="card-img-top" alt="Shami Kabab">
+                <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
                 <div class="card-body card-body-top">
                     <h5 class="card-title set-txt-font">Shami Kabab</h5>
                     <p class="card-text set-txt-font">$29.99</p>
-
                     <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyKabab2','Shami Kabab',29.99)">−</button>
-                        <input type="number" id="qtyKabab2" class="form-control qty-input" value="0" min="0" readonly data-product="Shami_Kabab">
-                        <button class="qty-btn" onclick="increaseQty('qtyKabab2','Shami Kabab',29.99)">+</button>
+                        <button class="qty-btn" onclick="decreaseQty('qtyKabab2')">−</button>
+                        <input type="number" id="qtyKabab2" class="form-control qty-input" value="1" min="1">
+                        <button class="qty-btn" onclick="increaseQty('qtyKabab2')">+</button>
                     </div>
                 </div>
                 <div class="card-body text-center">
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Shami Kabab','qtyKabab2',29.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Shami Kabab')">Clear</button>
-                    <button class="btn btn-info mb-2 btn-equal detail-btn" onclick="showDetail('Shami Kabab')">Detail</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Shami Kabab')">Detail</button>					
                 </div>
             </div>
-        </div>
+        </div>	
 
-        <!-- Shami Spicy Kabab -->
-        <div class="col-12 col-md-6 col-lg-4">
             <div class="card h-100 text-center">
-                <img src="images/kabab1.jpeg" class="card-img-top" alt="Shami Spicy Kabab">
+                <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
                 <div class="card-body card-body-top">
                     <h5 class="card-title set-txt-font">Shami Spicy Kabab</h5>
                     <p class="card-text set-txt-font">$29.99</p>
-
                     <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyKabab3','Shami Spicy Kabab',29.99)">−</button>
-                        <input type="number" id="qtyKabab3" class="form-control qty-input" value="0" min="0" readonly data-product="Shami_Spicy_Kabab">
-                        <button class="qty-btn" onclick="increaseQty('qtyKabab3','Shami Spicy Kabab',29.99)">+</button>
+                        <button class="qty-btn" onclick="decreaseQty('qtyKabab3')">−</button>
+                        <input type="number" id="qtyKabab3" class="form-control qty-input" value="1" min="1">
+                        <button class="qty-btn" onclick="increaseQty('qtyKabab3')">+</button>
                     </div>
                 </div>
                 <div class="card-body text-center">
+                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Shami Spicy Kabab','qtyKabab3',29.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Shami Spicy Kabab')">Clear</button>
-                    <button class="btn btn-info mb-2 btn-equal detail-btn" onclick="showDetail('Shami Spicy Kabab')">Detail</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Shami Spicy Kabab')">Detail</button>						
                 </div>
             </div>
-        </div>
+        </div>	
+		
     </div>
 </div>
 
