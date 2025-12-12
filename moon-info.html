@@ -109,16 +109,6 @@
     font-weight: bold;
     font-size: 36px;
 }	
-	.btn-detail-brown {
-    background-color: #5a381e;   /* dark brown */
-    color: white;
-    border: none;
-}
-
-.btn-detail-brown:hover {
-    background-color: #3e2815;   /* darker brown on hover */
-    color: white;
-}
 </style>
 
 <script>
@@ -322,14 +312,14 @@ window.onload = function(){
                     <p class="card-text set-txt-font">$49.99</p>
                     <div class="qty-box">
                         <button class="qty-btn" onclick="decreaseQty('qty1')">−</button>
-                        <input type="number" id="qty1" class="form-control set-txt-font qty-input" value="1" min="1">
+                        <input type="number" id="qty1" class="form-control qty-input" value="1" min="1">
                         <button class="qty-btn" onclick="increaseQty('qty1')">+</button>
                     </div>
                 </div>
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Elegant Leather Purse','qty1',49.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Elegant Leather Purse')">Clear</button>
-					<button class="btn btn-detail-brown mb-2 btn-equal" onclick="showDetail('Elegant Leather Purse')">Detail</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Elegant Leather Purse')">Detail</button>
                 </div>
             </div>
         </div>
@@ -355,7 +345,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Chocolate Box','qtyChoco1',19.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Chocolate Box')">Clear</button>
-					<button class="btn btn-detail-brown mb-2 btn-equal" onclick="showDetail('Chocolate Box')">Detail</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Chocolate Box')">Detail</button>
                 </div>
             </div>
         </div>
@@ -374,7 +364,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Peanut Chocolate Box','qtyChoco2',20.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Peanut Chocolate Box')">Clear</button>
-					<button class="btn btn-detail-brown mb-2 btn-equal" onclick="showDetail('Peanut Chocolate Box')">Detail</button>
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Peanut Chocolate Box')">Detail</button>
                 </div>
             </div>
         </div>
@@ -393,7 +383,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('ABC Chocolate Box','qtyChoco3',20.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('ABC Chocolate Box')">Clear</button>
-					<button class="btn btn-detail-brown mb-2 btn-equal" onclick="showDetail('ABC Chocolate Box')">Detail</button>					
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('ABC Chocolate Box')">Detail</button>					
                 </div>
             </div>
         </div>
@@ -412,7 +402,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('XYZ Chocolate Box','qtyChoco4',20.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('XYZ Chocolate Box')">Clear</button>
-					<button class="btn btn-detail-brown mb-2 btn-equal" onclick="showDetail('XYZ Chocolate Box')">Detail</button>					
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('XYZ Chocolate Box')">Detail</button>					
                 </div>
             </div>
         </div>		
@@ -439,7 +429,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Spicy Seekh Kabab','qtyKabab1',29.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Spicy Seekh Kabab')">Clear</button>
-					<button class="btn btn-detail-brown mb-2 btn-equal" onclick="showDetail('Spicy Seekh Kabab')">Detail</button>					
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Spicy Seekh Kabab')">Detail</button>					
                 </div>
             </div>
         </div>
@@ -459,7 +449,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Shami Kabab','qtyKabab2',29.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Shami Kabab')">Clear</button>
-					<button class="btn btn-detail-brown mb-2 btn-equal" onclick="showDetail('Shami Kabab')">Detail</button>					
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Shami Kabab')">Detail</button>					
                 </div>
             </div>
         </div>	
@@ -478,7 +468,7 @@ window.onload = function(){
                 <div class="card-body text-center">
                     <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Shami Spicy Kabab','qtyKabab3',29.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Shami Spicy Kabab')">Clear</button>
-					<button class="btn btn-detail-brown mb-2 btn-equal" onclick="showDetail('Shami Spicy Kabab')">Detail</button>						
+					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Shami Spicy Kabab')">Detail</button>						
                 </div>
             </div>
         </div>	
