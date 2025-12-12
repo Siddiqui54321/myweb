@@ -279,6 +279,38 @@ function showDetail(productName) {
     detailWindow.document.close();
 }
 
+
+{
+    let input = document.getElementById(id);
+    input.value = parseInt(input.value || 1) + 1;
+    addToCartAuto(productName, id, price);
+}
+
+function decreaseQty(id, productName, price) {
+    let input = document.getElementById(id);
+    let value = parseInt(input.value || 1);
+    if (value > 1) {
+        input.value = value - 1;
+        addToCartAuto(productName, id, price);
+    }
+}
+
+function addToCartAuto(productName, qtyInputId, price) {
+    let qty = parseInt(document.getElementById(qtyInputId).value);
+    if (!qty || qty <= 0) return;
+
+    let existing = cart.find(item => item.name === productName);
+
+    if (existing) {
+        existing.qty = qty;  // live update qty
+        existing.total = existing.qty * existing.price;
+    } else {
+        cart.push({name: productName, qty: qty, price: price, total: price * qty});
+    }
+
+    updateCartUI();
+}
+	
 window.onload = function(){
     showSection('purses-section');
 };
@@ -318,13 +350,13 @@ window.onload = function(){
                     <h5 class="card-title set-txt-font">Elegant Leather Purse</h5>
                     <p class="card-text set-txt-font">$49.99</p>
                     <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qty1')">−</button>
+
+						<button class="qty-btn" onclick="decreaseQty('qty1', 'Elegant Leather Purse', 49.99)">−</button>
                         <input type="number" id="qty1" class="form-control qty-input" value="1" min="1">
-                        <button class="qty-btn" onclick="increaseQty('qty1')">+</button>
+						<button class="qty-btn" onclick="increaseQty('qty1', 'Elegant Leather Purse', 49.99)">+</button>
                     </div>
                 </div>
-                <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Elegant Leather Purse','qty1',49.99)">Add to Cart</button>
+                <div class="card-body text-center">                    
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Elegant Leather Purse')">Clear</button>
 					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Elegant Leather Purse')">Detail</button>
                 </div>
@@ -344,13 +376,14 @@ window.onload = function(){
                     <h5 class="card-title set-txt-font">Chocolate Box</h5>
                     <p class="card-text set-txt-font">$19.99</p>
                     <div class="qty-box set-txt-font">
+
+						
                         <button class="qty-btn" onclick="decreaseQty('qtyChoco1')">−</button>
                         <input type="number" id="qtyChoco1" class="form-control qty-input" value="1" min="1">
                         <button class="qty-btn" onclick="increaseQty('qtyChoco1')">+</button>
                     </div>
                 </div>
-                <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Chocolate Box','qtyChoco1',19.99)">Add to Cart</button>
+                <div class="card-body text-center">                    
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Chocolate Box')">Clear</button>
 					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Chocolate Box')">Detail</button>
                 </div>
@@ -369,7 +402,6 @@ window.onload = function(){
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Peanut Chocolate Box','qtyChoco2',20.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Peanut Chocolate Box')">Clear</button>
 					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Peanut Chocolate Box')">Detail</button>
                 </div>
@@ -388,7 +420,6 @@ window.onload = function(){
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('ABC Chocolate Box','qtyChoco3',20.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('ABC Chocolate Box')">Clear</button>
 					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('ABC Chocolate Box')">Detail</button>					
                 </div>
@@ -407,7 +438,6 @@ window.onload = function(){
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('XYZ Chocolate Box','qtyChoco4',20.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('XYZ Chocolate Box')">Clear</button>
 					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('XYZ Chocolate Box')">Detail</button>					
                 </div>
@@ -434,7 +464,6 @@ window.onload = function(){
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Spicy Seekh Kabab','qtyKabab1',29.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Spicy Seekh Kabab')">Clear</button>
 					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Spicy Seekh Kabab')">Detail</button>					
                 </div>
@@ -454,7 +483,6 @@ window.onload = function(){
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Shami Kabab','qtyKabab2',29.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Shami Kabab')">Clear</button>
 					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Shami Kabab')">Detail</button>					
                 </div>
@@ -473,7 +501,6 @@ window.onload = function(){
                     </div>
                 </div>
                 <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Shami Spicy Kabab','qtyKabab3',29.99)">Add to Cart</button>
                     <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Shami Spicy Kabab')">Clear</button>
 					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Shami Spicy Kabab')">Detail</button>						
                 </div>
