@@ -38,42 +38,44 @@
         text-align: center;
     }
 
-    /* ===== Quantity Button Design ===== */
-    .qty-box {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 10px;
-    }
+/* ===== Quantity Button Design (BIGGER — All Screens) ===== */
+.qty-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;                /* more spacing */
+    margin-bottom: 15px;
+}
 
-    .qty-btn {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        border: none;
-        background-color: #0d6efd;
-        color: white;
-        font-size: 22px;
-        font-weight: bold;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: 0.2s;
-    }
+.qty-btn {
+    width: 60px;              /* bigger button */
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    background-color: #0d6efd;
+    color: white;
+    font-size: 38px;          /* bigger + / − */
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-    .qty-btn:hover {
-        background-color: #0b5ed7;
-        transform: scale(1.1);
-    }
+.qty-btn:hover {
+    background-color: #0b5ed7;
+    transform: scale(1.08);
+}
 
-    .qty-input {
-        width: 70px;
-        text-align: center;
-        font-size: 18px;
-        font-weight: bold;
-    }
+.qty-input {
+    width: 110px;             /* bigger input box */
+    height: 60px;
+    font-size: 34px;          /* bigger number */
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px;
+}
 
     .btn-equal {
         font-size: 30px;
@@ -112,26 +114,24 @@
     /* ===========================
        MOBILE FIX FOR QTY BUTTONS
        =========================== */
-    @media (max-width: 480px) {
+@media (max-width: 480px) {
 
-        .qty-box {
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-
-        .qty-btn {
-            width: 55px !important;
-            height: 55px !important;
-            font-size: 32px !important;
-        }
-
-        .qty-input {
-            width: 90px !important;
-            font-size: 28px !important;
-            height: 55px !important;
-        }
+    .qty-btn {
+        width: 70px !important;
+        height: 70px !important;
+        font-size: 45px !important;
     }
 
+    .qty-input {
+        width: 130px !important;
+        height: 70px !important;
+        font-size: 40px !important;
+    }
+
+    .qty-box {
+        gap: 22px;
+    }
+}
 </style>
 
 <script>
