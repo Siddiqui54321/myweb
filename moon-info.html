@@ -109,6 +109,29 @@
     font-weight: bold;
     font-size: 36px;
 }	
+
+/* ===== MOBILE FIX FOR QTY BUTTONS ===== */
+@media (max-width: 480px) {
+
+    .qty-box {
+        gap: 20px;               /* increase space between buttons and number */
+        margin-bottom: 15px;
+    }
+
+    .qty-btn {
+        width: 55px !important;  /* bigger button */
+        height: 55px !important;
+        font-size: 32px !important; /* bigger + and - signs */
+    }
+
+    .qty-input {
+        width: 90px !important;  /* bigger number box */
+        font-size: 28px !important;
+        height: 55px !important;
+    }
+}
+
+	
 </style>
 
 <script>
@@ -293,7 +316,7 @@ window.onload = function(){
     </div>
 </div>	
 
-<h1 class="text-center mb-4">SHOPING ON LINE</h1>
+<h1 class="text-center mb-4">SHOPING-ON-LINE</h1>
 
 <div class="text-center mb-4">
     <button class="btn btn-primary mx-2 btn-equal-head" onclick="showSection('chocolates-section')">Chocolates</button>
