@@ -206,7 +206,7 @@ function orderViaWhatsAppCart(){
         total += item.price*item.qty;
     });
 
-    msg+=`\nTotal Amount: $${total.toFixed(2)}\n\nKindly confirm order via JazzCash or EasyPaisa. Delivery in 2 days.`;
+    msg+=`\nTotal Amount: $${total.toFixed(2)}\n\nKindly confirm order via JazzCash or EasyPaisa.`;
 
     let url = "https://wa.me/"+phone+"?text="+encodeURIComponent(msg);
     window.open(url,'_blank');
@@ -317,7 +317,7 @@ window.onload = function(){
 <div id="cart-details">
     <h2 class="cart-title">🛒 Here Is Your Cart - Check it</h2>
     <ul id="cart-items" class="cart-items list-group mb-2"></ul>
-    <h3 class="cart-total">Total: $<span id="cart-total">0.00</span></h3>
+    <h3 class="cart-total">Total: Rs.<span id="cart-total">0.00</span></h3>
     <div id="cart-buttons">
         <button class="btn btn-danger btn-sm btn-equal-head" onclick="clearCart()">Clear Cart</button>
         <button class="btn btn-success btn-sm btn-equal-head" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
