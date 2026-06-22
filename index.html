@@ -1,514 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Shop on Line</title>
-<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
-<!-- RESTORE BOOTSTRAP HERE -->
-<style>
-    body {
-        padding-right: 0px;
-    }
-    @media (max-width: 768px) {
-        body { padding-right: 0; }
-    }
+    <meta charset="UTF-8">
+    <title>Fresh Kabab & Chocolates</title>
 
-    .card-img-top {
-        height: 180px;
-        object-fit: cover;
-        width: 100%;
-    }
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    #cart-details {
-        background: #f8f9fa;
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        margin-bottom: 20px;
-    }
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    #cart-buttons {
-        display: flex;
-        justify-content: left;
-        gap: 15px;
-        margin-top: 10px;
-    }
+    <style>
+        body {
+            background: #f8f9fa;
+        }
 
-    .card-body-top {
-        text-align: center;
-    }
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+            url('images/hero.jpg');
+            background-size: cover;
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
 
-/* ===== Quantity Button Design (BIGGER — All Screens) ===== */
-.qty-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;                /* more spacing */
-    margin-bottom: 15px;
-}
+        .section-title {
+            margin: 40px 0 20px;
+            text-align: center;
+        }
 
-.qty-btn {
-    width: 60px;              /* bigger button */
-    height: 60px;
-    border-radius: 50%;
-    border: none;
-    background-color: #0d6efd;
-    color: white;
-    font-size: 38px;          /* bigger + / − */
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: 0.2s;
-}
+        .card img {
+            height: 220px;
+            object-fit: cover;
+        }
 
-.qty-btn:hover {
-    background-color: #0b5ed7;
-    transform: scale(1.08);
-}
-
-.qty-input {
-    width: 110px;             /* bigger input box */
-    height: 60px;
-    font-size: 34px;          /* bigger number */
-    font-weight: bold;
-    text-align: center;
-    border-radius: 8px;
-} 
-
-	.btn-equal {
-		font-size: 30px;
-		font-weight: bold;
-		width: 130px;
-		height: 60px;		
-	}
-	
-	.btn-equal-head {
-		font-size: 30px;
-		font-weight: bold;
-		width: 180px;
-		height: 60px;		
-	}	
-	.set-txt-font {
-		font-size: 30px;
-		font-weight: bold;
-	}	
-
-.cart-title {
-    font-weight: bold;
-    font-size: 36px; /* You can adjust the size */
-}
-
-/* Make cart items bold and bigger */
-.cart-items li {
-    font-weight: bold;
-    font-size: 36px;
-}
-
-/* Optional: increase total font size */
-.cart-total {
-    font-weight: bold;
-    font-size: 36px;
-}	
-
-/* ===== MOBILE FIX FOR QTY BUTTONS ===== */
-/* ===== Extra Boost on Mobile ===== */
-@media (max-width: 480px) {
-
-    .qty-btn {
-        width: 70px !important;
-        height: 70px !important;
-        font-size: 65px !important;
-    }
-
-    .qty-input {
-        width: 130px !important;
-        height: 70px !important;
-        font-size: 65px !important;
-    }
-
-    .qty-box {
-        gap: 22px;
-    }
-}
-
-	
-</style>
-
-<script>
-let cart = [];
-
-/* === Increase & Decrease Qty === */
-function increaseQty(id) {
-    let input = document.getElementById(id);
-    input.value = parseInt(input.value || 1) + 1;
-}
-
-function decreaseQty(id) {
-    let input = document.getElementById(id);
-    let value = parseInt(input.value || 1);
-    if (value > 1) input.value = value - 1;
-}
-
-/* === Add to Cart Function === */
-function addToCart(productName, qtyInputId, price) {
-    let qty = parseInt(document.getElementById(qtyInputId).value);
-    if (!qty || qty <= 0) { alert("Enter valid quantity"); return; }
-
-    let existing = cart.find(item => item.name === productName);
-    if(existing){
-        existing.qty += qty;
-        existing.total = existing.qty * existing.price;
-    } else {
-        cart.push({name: productName, qty: qty, price: price, total: price*qty});
-    }
-    updateCartUI();
-}
-
-/* === Remove individual item === */
-function removeFromCart(productName){
-    cart = cart.filter(item => item.name !== productName);
-    updateCartUI();
-}
-
-function updateCartUI(){
-    let list = document.getElementById("cart-items");
-    let totalBill = 0;
-    list.innerHTML = "";
-    cart.forEach(item=>{
-        totalBill += item.price*item.qty;
-        list.innerHTML += `<li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>${item.name} x${item.qty}</span>
-            <div>
-                <strong>$${(item.price*item.qty).toFixed(2)}</strong>
-                <button class="btn btn-sm btn-danger ms-2" onclick="removeFromCart('${item.name}')">X</button>
-            </div>
-        </li>`;
-    });
-    document.getElementById("cart-total").innerText = totalBill.toFixed(2);
-}
-
-function clearCart(){
-    cart = [];
-    updateCartUI();
-}
-
-function orderViaWhatsAppCart(){
-    if(cart.length==0){ alert("Cart is empty"); return; }
-    let phone="923028345376";
-    let msg="I'm interested in:\n\n";
-    let total=0;
-
-    cart.forEach(item=>{
-        msg+=`${item.name} x${item.qty} = $${(item.price*item.qty).toFixed(2)}\n`;
-        total += item.price*item.qty;
-    });
-
-    msg+=`\nTotal Amount: $${total.toFixed(2)}\n\nKindly confirm order via JazzCash or EasyPaisa. Delivery in 2 days.`;
-
-    let url = "https://wa.me/"+phone+"?text="+encodeURIComponent(msg);
-    window.open(url,'_blank');
-}
-
-function showSection(sectionId){
-    ['purses-section','chocolates-section','kabab-section'].forEach(id=>{
-        document.getElementById(id).style.display='none';
-    });
-    document.getElementById(sectionId).style.display='block';
-}
-
-// Object holding all product details
-const productDetails = {
-    "Elegant Leather Purse": "This purse is leather type and durable with one year guarantee. No return after sale.",
-    "Chocolate Box": "Delicious assorted chocolates. Best before 6 months. Store in cool place.",
-    "Peanut Chocolate Box": "Tasty peanut chocolates, store in cool & dry place. Consume within 6 months.",
-    "ABC Chocolate Box": "Assorted chocolates for gifting. Keep away from heat.",
-    "XYZ Chocolate Box": "Premium chocolate selection. Best before 6 months.",
-    "Spicy Seekh Kabab": "Spicy and flavorful kababs made from fresh ingredients. Serve hot. Consume within 2 days.",
-    "Shami Kabab": "Soft and juicy kababs made with traditional spices. Serve hot.",
-    "Shami Spicy Kabab": "Spicy Shami kababs, perfect for BBQ lovers. Serve hot."
-    // Add more products here as needed
-};
-
-// Function to show details in a popup window
-function showDetail(productName) {
-    const details = productDetails[productName] || "No details available.";
-
-    let detailWindow = window.open("", "_blank", "width=800,height=450"); 
-
-    detailWindow.document.open();
-    detailWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>${productName}</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-
-            <!-- FIX: Bootstrap added -->
-            <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
-
-            <style>
-                body {
-                    margin: 0;
-                    padding: 25px;
-                    font-family: Arial, sans-serif;
-                    font-size: 22px;
-                    line-height: 1.6;
-                }
-                h1 {
-                    text-align: center;
-                    font-size: 28px;
-                    margin-bottom: 20px;
-                    text-decoration: underline;
-                }
-                p {
-                    font-size: 22px;
-                    text-align: justify;
-                }
-                .close-btn {
-                    display: block;
-                    width: 100%;
-                    margin-top: 30px;
-                    padding: 15px;
-                    font-size: 42px;
-                    background: gray;
-                    color: white;
-                    border: none;
-                    border-radius: 6px;
-                }
-
-				.cart-title1 {
-    				font-weight: bold;
-    				font-size: 56px; /* You can adjust the size */
-					text-align: center;
-				}				
-            </style>
-        </head>
-        <body>
-            <h1 class="cart-title1">${productName}</h1>
-            <p class="cart-title1">${details}</p>
-            <button class="close-btn" onclick="window.close()">Close</button>             
-        </body>
-        </html>
-    `);
-
-    detailWindow.document.close();
-}
-
-	
-window.onload = function(){
-    showSection('purses-section');
-};
-</script>
-
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25D366;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="container mt-3">
-
-<!-- Cart Details at Top -->
-<div id="cart-details">
-    <h2 class="cart-title">🛒 Here Is Your Cart - Check it</h2>
-    <ul id="cart-items" class="cart-items list-group mb-2"></ul>
-    <h3 class="cart-total">Total: $<span id="cart-total">0.00</span></h3>
-    <div id="cart-buttons">
-        <button class="btn btn-danger btn-sm btn-equal-head" onclick="clearCart()">Clear Cart</button>
-        <button class="btn btn-success btn-sm btn-equal-head" onclick="orderViaWhatsAppCart()">WhatsApp Order</button>
-    </div>
-</div>	
-
-<h1 class="text-center mb-4">SHOPING-ON-LINE</h1>
-
-<div class="text-center mb-4">
-    <button class="btn btn-primary mx-2 btn-equal-head" onclick="showSection('chocolates-section')">Chocolates</button>
-    <button class="btn btn-danger mx-2 btn-equal-head"  onclick="showSection('kabab-section')">Kabab</button>
-    <button class="btn btn-success mx-2 btn-equal-head" onclick="showSection('purses-section')">Purses</button>
+<!-- HERO SECTION -->
+<div class="hero">
+    <h1>Fresh Kabab 🍢 & Handmade Chocolates 🍫</h1>
+    <p>Order fresh homemade food directly on WhatsApp</p>
+    <a href="https://wa.me/923028345376" class="btn btn-success btn-lg">
+        Order Now
+    </a>
 </div>
 
-<!-- Purses Section -->
-<div id="purses-section" style="display:none;">
-    <div class="row g-4 mb-4">
-        <div class="col-12 col-md-6 col-lg-auto">
-            <div class="card h-100 text-center">
-                <img src="images/purse1.jpg" class="card-img-top" alt="Purse">
-                <div class="card-body card-body-top">
-                    <h5 class="card-title set-txt-font">Elegant Leather Purse</h5>
-                    <p class="card-text set-txt-font">$49.99</p>
-                    <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qty1')">−</button>
-                        <input type="number" id="qty1" class="form-control qty-input" value="1" min="1">
-                        <button class="qty-btn" onclick="increaseQty('qty1')">+</button>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Elegant Leather Purse','qty1',49.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Elegant Leather Purse')">Clear</button>
-					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Elegant Leather Purse')">Detail</button>
-                </div>
-            </div>
-        </div>
-        <!-- Add more purses here following same pattern -->
-    </div>
+<!-- ABOUT -->
+<div class="container mt-5">
+    <h2 class="section-title">About Us</h2>
+    <p class="text-center">
+        We provide fresh homemade kababs and delicious chocolates made with quality ingredients.
+        Fast delivery available in Karachi.
+    </p>
 </div>
 
-<!-- Chocolates Section -->
-<div id="chocolates-section" style="display:none;">
-    <div class="row g-4 mb-4">
-        <div class="col-12 col-md-6 col-lg-auto">
-            <div class="card h-100 text-center">
-                <img src="images/choco1.jpeg" class="card-img-top" alt="Chocolate">
-                <div class="card-body card-body-top">
-                    <h5 class="card-title set-txt-font">Chocolate Box</h5>
-                    <p class="card-text set-txt-font">$19.99</p>
-                    <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyChoco1')">−</button>
-                        <input type="number" id="qtyChoco1" class="form-control qty-input" value="1" min="1">
-                        <button class="qty-btn" onclick="increaseQty('qtyChoco1')">+</button>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Chocolate Box','qtyChoco1',19.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Chocolate Box')">Clear</button>
-					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Chocolate Box')">Detail</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-auto">
-            <div class="card h-100 text-center">
-                <img src="images/choco2.jpeg" class="card-img-top" alt="Chocolate">
-                <div class="card-body card-body-top">
-                    <h5 class="card-title set-txt-font">Peanut Chocolate Box</h5>
-                    <p class="card-text set-txt-font">$20.99</p>
-                    <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyChoco2')">−</button>
-                        <input type="number" id="qtyChoco2" class="form-control qty-input" value="1" min="1">
-                        <button class="qty-btn" onclick="increaseQty('qtyChoco2')">+</button>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Peanut Chocolate Box','qtyChoco2',20.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Peanut Chocolate Box')">Clear</button>
-					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Peanut Chocolate Box')">Detail</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-auto">
-            <div class="card h-100 text-center">
-                <img src="images/choco3.jpeg" class="card-img-top" alt="Chocolate">
-                <div class="card-body card-body-top">
-                    <h5 class="card-title set-txt-font" >ABC Chocolate Box</h5>
-                    <p class="card-text set-txt-font">$20.99</p>
-                    <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyChoco3')">−</button>
-                        <input type="number" id="qtyChoco3" class="form-control qty-input" value="1" min="1">
-                        <button class="qty-btn" onclick="increaseQty('qtyChoco3')">+</button>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('ABC Chocolate Box','qtyChoco3',20.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('ABC Chocolate Box')">Clear</button>
-					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('ABC Chocolate Box')">Detail</button>					
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-auto">
-            <div class="card h-100 text-center">
-                <img src="images/choco3.jpeg" class="card-img-top" alt="Chocolate">
-                <div class="card-body card-body-top">
-                    <h5 class="card-title set-txt-font">XYZ Chocolate Box</h5>
-                    <p class="card-text set-txt-font">$20.99</p>
-                    <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyChoco4')">−</button>
-                        <input type="number" id="qtyChoco4" class="form-control qty-input" value="1" min="1">
-                        <button class="qty-btn" onclick="increaseQty('qtyChoco4')">+</button>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('XYZ Chocolate Box','qtyChoco4',20.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('XYZ Chocolate Box')">Clear</button>
-					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('XYZ Chocolate Box')">Detail</button>					
-                </div>
-            </div>
-        </div>		
+<!-- PRODUCTS -->
+<div class="container">
 
-        <!-- Add more chocolates similarly, each in its own <div class="col"> -->
+    <h2 class="section-title">Our Products</h2>
+
+    <div class="row">
+
+        <!-- Kabab -->
+        <div class="col-md-6">
+            <div class="card">
+                <img src="images/kabab.jpg">
+                <div class="card-body text-center">
+                    <h5>Kabab</h5>
+                    <p>Fresh BBQ & grilled kababs</p>
+                    <a href="https://wa.me/923028345376?text=I want Kabab" class="btn btn-success">
+                        Order Kabab
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chocolates -->
+        <div class="col-md-6">
+            <div class="card">
+                <img src="images/chocolate.jpg">
+                <div class="card-body text-center">
+                    <h5>Chocolates</h5>
+                    <p>Sweet handmade chocolates</p>
+                    <a href="https://wa.me/923028345376?text=I want Chocolates" class="btn btn-success">
+                        Order Chocolates
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
-<!-- Kabab Section -->
-<div id="kabab-section" style="display:none;">
-    <div class="row g-4 mb-4">
-        <div class="col-12 col-md-6 col-lg-auto">
-            <div class="card h-100 text-center">
-                <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
-                <div class="card-body card-body-top">
-                    <h5 class="card-title set-txt-font">Spicy Seekh Kabab</h5>
-                    <p class="card-text set-txt-font">$29.99</p>
-                    <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyKabab1')">−</button>
-                        <input type="number" id="qtyKabab1" class="form-control qty-input" value="1" min="1">
-                        <button class="qty-btn" onclick="increaseQty('qtyKabab1')">+</button>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Spicy Seekh Kabab','qtyKabab1',29.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Spicy Seekh Kabab')">Clear</button>
-					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Spicy Seekh Kabab')">Detail</button>					
-                </div>
-            </div>
-        </div>
-<!-- Add more -->
-        <div class="col-12 col-md-6 col-lg-auto">
-            <div class="card h-100 text-center">
-                <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
-                <div class="card-body card-body-top">
-                    <h5 class="card-title set-txt-font">Shami Kabab</h5>
-                    <p class="card-text set-txt-font">$29.99</p>
-                    <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyKabab2')">−</button>
-                        <input type="number" id="qtyKabab2" class="form-control qty-input" value="1" min="1">
-                        <button class="qty-btn" onclick="increaseQty('qtyKabab2')">+</button>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Shami Kabab','qtyKabab2',29.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Shami Kabab')">Clear</button>
-					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Shami Kabab')">Detail</button>					
-                </div>
-            </div>
-        </div>	
-
-            <div class="card h-100 text-center">
-                <img src="images/kabab1.jpeg" class="card-img-top" alt="Kabab">
-                <div class="card-body card-body-top">
-                    <h5 class="card-title set-txt-font">Shami Spicy Kabab</h5>
-                    <p class="card-text set-txt-font">$29.99</p>
-                    <div class="qty-box set-txt-font">
-                        <button class="qty-btn" onclick="decreaseQty('qtyKabab3')">−</button>
-                        <input type="number" id="qtyKabab3" class="form-control qty-input" value="1" min="1">
-                        <button class="qty-btn" onclick="increaseQty('qtyKabab3')">+</button>
-                    </div>
-                </div>
-                <div class="card-body text-center">
-                    <button class="btn btn-primary mb-2 btn-equal" onclick="addToCart('Shami Spicy Kabab','qtyKabab3',29.99)">Add to Cart</button>
-                    <button class="btn btn-danger mb-2 btn-equal" onclick="removeFromCart('Shami Spicy Kabab')">Clear</button>
-					<button class="btn btn-info mb-2 btn-equal" onclick="showDetail('Shami Spicy Kabab')">Detail</button>						
-                </div>
-            </div>
-        </div>	
-		
-    </div>
+<!-- CONTACT -->
+<div class="container text-center mt-5 mb-5">
+    <h2>Contact</h2>
+    <p>WhatsApp: 923028345376</p>
 </div>
 
-<!-- QR Section -->
-<div class="text-center mt-3 mb-3">
-    <h3>Scan to Open Website</h3>
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://siddiqui54321.github.io/myweb/moon-info.html" 
-         alt="QR Code" class="img-fluid" />
-</div>
-
-</div> <!-- /.container -->
+<!-- WhatsApp Floating Button -->
+<a class="whatsapp-btn" href="https://wa.me/923028345376">
+    WhatsApp
+</a>
 
 </body>
 </html>
